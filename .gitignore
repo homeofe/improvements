@@ -1,0 +1,26 @@
+# Personal settings (not shared)
+.claude/settings.local.json
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# AAHP transient files
+.ai/handoff/HANDOFF.lock
+
+# Node modules (if scripts are added later)
+node_modules/
+dist/
