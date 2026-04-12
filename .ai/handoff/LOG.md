@@ -6,6 +6,46 @@
 
 ---
 
+## 2026-04-12 Claude Opus 4.6: T-003 Framework Integration Test
+
+**Agent:** Claude Opus 4.6
+**Phase:** Testing (T-003)
+
+### What was done
+
+- Synced GitHub issues #1, #2, #3 into AAHP MANIFEST.json task graph
+- Set T-003 to in_progress
+- Integrated framework into **Elvatis Shield** (elvatis-security-platform):
+  - Copied .claude/rules/ (4), .claude/agents/ (5), .claude/commands/ (5)
+  - Copied .llm/ (4 files: ROUTING, PROVIDERS, PATTERNS, PROMPTS)
+  - Created .claude/settings.json with Shield-specific permissions
+  - Extended CLAUDE.md with framework section
+  - Total: 20 new files added to Shield (16 .claude/ + 4 .llm/)
+- Integrated framework into **AEGIS**:
+  - Copied .claude/rules/ (4), .claude/agents/ (5)
+  - Added 4 skills (status, next, route, review-cycle) alongside 9 existing skills
+  - Copied .llm/ (4 files)
+  - Extended CLAUDE.md with framework section
+  - Total: 17 new files added to AEGIS (13 .claude/ + 4 .llm/)
+- Created README.md and INTEGRATION.md for the framework repo
+- Initialized git, pushed to github.com/homeofe/improvements
+- Tested /status command in current session - works correctly
+
+### Findings
+
+- AEGIS uses `.claude/skills/` instead of `.claude/commands/` - both work identically
+- Shield had only `settings.local.json` (personal) - added team `settings.json`
+- Existing AAHP handoff files in both projects were preserved untouched
+- The framework layers (.claude/rules, agents, commands + .llm/) are clean additions
+
+### Open items
+
+- T-004: Packaging script would automate this manual copy process
+- T-005: PostToolUse hooks still needed
+- Need to test commands in fresh sessions (current session loaded before commands existed)
+
+---
+
 ## 2026-04-12 Claude Opus 4.6: Framework Design & Implementation
 
 **Agent:** Claude Opus 4.6

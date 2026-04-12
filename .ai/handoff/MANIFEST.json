@@ -60,6 +60,7 @@
     "full_read": 3500
   },
   "next_task_id": 6,
+  "github_issues": "https://github.com/homeofe/improvements/issues",
   "tasks": {
     "T-001": {
       "title": "Design framework structure",
@@ -79,23 +80,28 @@
     },
     "T-003": {
       "title": "Test framework in a real project",
-      "status": "ready",
+      "status": "done",
       "priority": "high",
       "depends_on": ["T-002"],
-      "created": "2026-04-12T14:00:00Z"
+      "github_issue": 1,
+      "assigned_to": "claude-opus-4.6",
+      "created": "2026-04-12T14:00:00Z",
+      "completed": "2026-04-12T15:00:00Z"
     },
     "T-004": {
       "title": "Add template packaging script",
       "status": "ready",
       "priority": "medium",
       "depends_on": ["T-002"],
+      "github_issue": 2,
       "created": "2026-04-12T14:00:00Z"
     },
     "T-005": {
       "title": "Add PostToolUse hooks for quality enforcement",
       "status": "ready",
-      "priority": "low",
+      "priority": "medium",
       "depends_on": ["T-002"],
+      "github_issue": 3,
       "created": "2026-04-12T14:00:00Z"
     }
   }
