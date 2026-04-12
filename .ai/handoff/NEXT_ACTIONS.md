@@ -6,42 +6,14 @@
 
 ---
 
-## T-003: Test Framework in a Real Project
-
-**Goal:** Copy the framework to an existing project and validate it works end-to-end.
-
-**Context:**
-- Framework structure is complete with all configuration files
-- Untested in real-world usage
-
-**What to do:**
-1. Choose a target project (e.g., Shield, AEGIS, or another active project)
-2. Copy `.claude/`, `.llm/`, and CLAUDE.md to the target project
-3. Adapt CLAUDE.md for the target project's specifics
-4. Run a full session using the framework: `/status`, `/next`, `/route`, `/handoff`
-5. Document what works and what needs adjustment
-
-**Files:**
-- `CLAUDE.md`: Root project instructions
-- `.claude/commands/*.md`: Custom commands to test
-- `.llm/ROUTING.md`: Model routing to validate
-
-**Definition of done:**
-- [ ] Framework copied to a real project
-- [ ] All 5 custom commands work correctly
-- [ ] Model routing produces sensible recommendations
-- [ ] Handoff cycle completes without errors
-- [ ] STATUS.md updated with findings
-
----
-
 ## T-004: Add Template Packaging Script
 
 **Goal:** Create a script that copies the framework to any project, adapting placeholders.
 
 **Context:**
-- Framework files contain project-specific content that needs adaptation
-- Manual copying is error-prone
+- Framework manually integrated into Shield (20 files) and AEGIS (17 files)
+- Manual copying works but is error-prone and tedious
+- GitHub Issue: #2
 
 **What to do:**
 1. Create `scripts/init-framework.sh` (or `.js`)
@@ -59,13 +31,14 @@
 
 ---
 
-## T-005: Add PostToolUse Hooks for Quality
+## T-005: Add PostToolUse Hooks for Quality Enforcement
 
 **Goal:** Configure hooks that auto-validate no em dashes and no secrets in edited files.
 
 **Context:**
 - `.claude/settings.json` exists but hooks are not yet configured
 - CONVENTIONS.md prohibits em dashes and secrets
+- GitHub Issue: #3
 
 **What to do:**
 1. Create a validation script (bash or node) that checks for em dashes and secret patterns
@@ -84,8 +57,9 @@
 
 | Item | Resolution |
 |------|-----------|
-| T-001: Design framework structure | Designed and implemented in initial session |
-| T-002: Create all framework files | 28 files created across 4 layers |
+| T-003: Test framework in real project | Integrated into Shield + AEGIS, all 5 commands verified (Issue #1 closed) |
+| T-002: Create all framework files | 30 files created across 4 layers |
+| T-001: Design framework structure | 4-layer architecture designed and implemented |
 
 ---
 
@@ -100,3 +74,4 @@
 | Custom commands | `.claude/commands/*.md` |
 | Custom agents | `.claude/agents/*.md` |
 | AAHP handoff state | `.ai/handoff/` |
+| Integration guide | `INTEGRATION.md` |
