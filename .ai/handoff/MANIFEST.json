@@ -1,0 +1,102 @@
+{
+  "aahp_version": "3.0",
+  "project": "ai-workflow-improvement-framework",
+  "last_session": {
+    "agent": "claude-opus-4.6",
+    "session_id": "improvements-init-2026-04-12",
+    "timestamp": "2026-04-12T14:00:00Z",
+    "commit": "pre-git",
+    "phase": "implementation",
+    "duration_minutes": 30
+  },
+  "files": {
+    "STATUS.md": {
+      "checksum": "sha256:47629cf4915cb5ffdaf59272aea17ce4edf06f17b8e01259dcc31841a62a899d",
+      "updated": "2026-04-12T14:00:00Z",
+      "lines": 82,
+      "summary": "Framework complete. 28 files across 4 layers. Ready for real-world testing."
+    },
+    "NEXT_ACTIONS.md": {
+      "checksum": "sha256:4c32a624db75ef4e6ab372b4ca6e010e96570efe9fce898aed421d976fa60173",
+      "updated": "2026-04-12T14:00:00Z",
+      "lines": 102,
+      "summary": "3 tasks. Top: T-003 Test framework in real project. T-004 Packaging script. T-005 Hooks."
+    },
+    "LOG.md": {
+      "checksum": "sha256:9307a03784480be410b17f91c0a1848ddbc33a8d4a203f88f6b30af94970d6ec",
+      "updated": "2026-04-12T14:00:00Z",
+      "lines": 45,
+      "summary": "Last entry: Initial framework design and implementation. 28 files created."
+    },
+    "DASHBOARD.md": {
+      "checksum": "sha256:e685365db36669c2e0495a08c5ad0342b4e200cf58722b88addb918bef54f82e",
+      "updated": "2026-04-12T14:00:00Z",
+      "lines": 73,
+      "summary": "7/7 components verified. 3 open tasks. Pipeline idle."
+    },
+    "TRUST.md": {
+      "checksum": "sha256:826b9cb7d743bec3b54cc5180d863337ed30e1324ac37a161109d9d75d566920",
+      "updated": "2026-04-12T14:00:00Z",
+      "lines": 83,
+      "summary": "Framework files verified. Commands and agents untested. Content quality assumed."
+    },
+    "CONVENTIONS.md": {
+      "checksum": "sha256:b760ae95bcc0d65824aa81369c6b9a1a0a18f1e38c0a4ae749d566c03afd03af",
+      "updated": "2026-04-12T14:00:00Z",
+      "lines": 107,
+      "summary": "LLM-agnostic conventions. Three Laws. Multi-model rules. No em dashes."
+    },
+    "WORKFLOW.md": {
+      "checksum": "sha256:d487d08724971d86615be9aae28a0ee09e7f3566950c5d5fbe0b9671e951e40b",
+      "updated": "2026-04-12T14:00:00Z",
+      "lines": 183,
+      "summary": "5-phase pipeline with model routing. Researcher-Architect-Implementer-Reviewer-Handoff."
+    }
+  },
+  "quick_context": "AI Workflow Improvement Framework initial build complete. 28 files across 4 layers: .claude/ (rules, agents, commands), .llm/ (routing, providers, patterns, prompts), .ai/handoff/ (AAHP state), CLAUDE.md (root). Next: test framework in a real project (T-003).",
+  "token_budget": {
+    "manifest_only": 200,
+    "manifest_plus_core": 600,
+    "full_read": 3500
+  },
+  "next_task_id": 6,
+  "tasks": {
+    "T-001": {
+      "title": "Design framework structure",
+      "status": "done",
+      "priority": "critical",
+      "depends_on": [],
+      "created": "2026-04-12T13:30:00Z",
+      "completed": "2026-04-12T13:45:00Z"
+    },
+    "T-002": {
+      "title": "Create all framework files",
+      "status": "done",
+      "priority": "critical",
+      "depends_on": ["T-001"],
+      "created": "2026-04-12T13:30:00Z",
+      "completed": "2026-04-12T14:00:00Z"
+    },
+    "T-003": {
+      "title": "Test framework in a real project",
+      "status": "ready",
+      "priority": "high",
+      "depends_on": ["T-002"],
+      "created": "2026-04-12T14:00:00Z"
+    },
+    "T-004": {
+      "title": "Add template packaging script",
+      "status": "ready",
+      "priority": "medium",
+      "depends_on": ["T-002"],
+      "created": "2026-04-12T14:00:00Z"
+    },
+    "T-005": {
+      "title": "Add PostToolUse hooks for quality enforcement",
+      "status": "ready",
+      "priority": "low",
+      "depends_on": ["T-002"],
+      "created": "2026-04-12T14:00:00Z"
+    }
+  }
+}
