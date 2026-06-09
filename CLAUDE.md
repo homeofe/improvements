@@ -62,3 +62,10 @@ This project uses AAHP v3 for structured handoff between AI agents. Key rules:
 - Never reuse task IDs
 - Mark trust claims with TTL
 - See `.claude/rules/aahp-protocol.md` for full protocol
+
+## Style Rules
+
+- Never use em dashes (the U+2014 character) in any content: documentation, markdown, README, code comments, GitHub issue titles, or handoff files. Use a plain hyphen (-) instead.
+- When reviewing existing files, scan for em dashes and replace them.
+- Applies to all .md files, HTML templates, comments, and .ai/handoff files.
+- If an AI tool auto-inserts em dashes (e.g. "Title - Subtitle"), fix before committing.
