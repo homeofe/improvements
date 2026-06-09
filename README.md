@@ -66,6 +66,7 @@ your-project/
 ## Quick Start
 
 See **[INTEGRATION.md](INTEGRATION.md)** for the full step-by-step guide.
+To understand how this framework is built and why (a build-it-yourself walkthrough), see **[docs/BUILDING-THE-FRAMEWORK.md](docs/BUILDING-THE-FRAMEWORK.md)**.
 
 ```bash
 # Clone and copy to your project
