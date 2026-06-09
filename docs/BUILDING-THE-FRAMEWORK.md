@@ -480,4 +480,4 @@ Verification after a build:
 
 ---
 
-*Copyright 2026 Elvatis - Emre Kohler. Licensed under CC BY 4.0. Share and adapt with attribution.*
+*Copyright 2026 Emre Kohler (Elvatis). Licensed under the MIT License. Use, copy, modify, and distribute freely.*

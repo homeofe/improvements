@@ -152,6 +152,6 @@ These files are useful even if you don't use Claude Code.
 
 ## License
 
-**Copyright 2026 Elvatis - Emre Kohler**
-Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-You are free to share and adapt with attribution.
+**Copyright 2026 Emre Kohler (Elvatis)**
+Licensed under the [MIT License](LICENSE). Use, copy, modify, and distribute freely,
+including for commercial purposes. The only condition is keeping the license notice.
