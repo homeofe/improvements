@@ -90,7 +90,7 @@ Don't use Opus for everything. The framework includes a routing decision tree:
 | Task Type | Recommended Model | Cost Tier |
 |-----------|------------------|-----------|
 | Web research | Perplexity / Grok | Low |
-| Large file analysis | Gemini 3 Pro (very large context, 1M+ tokens) | Medium |
+| Large file analysis | Gemini 3.1 Pro (very large context, 1M+ tokens) | Medium |
 | Architecture | Opus / GPT-5.4 | High |
 | Code implementation | Sonnet / Codex | Medium |
 | Code review | Different provider than implementer | Medium |

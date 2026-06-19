@@ -12,7 +12,7 @@
 |-------|--------------|----------|------|---------------|
 | Researcher | Perplexity sonar-pro | Gemini + search | Research | OSS research, compliance, doc review |
 | Architect | Claude Opus / GPT-5.4 | Grok reasoning | Design | System design, ADRs, interfaces |
-| Implementer | Claude Sonnet / Codex | Gemini 3 Flash | Build | Code, tests, refactoring, commits |
+| Implementer | Claude Sonnet / Codex | Gemini 3.5 Flash | Build | Code, tests, refactoring, commits |
 | Reviewer | Different provider | - | Review | Second opinion, security, edge cases |
 | Handoff Manager | Haiku | Local LLM | State | MANIFEST.json, checksums, task lifecycle |
 
@@ -169,7 +169,7 @@ If an agent fails or is uncertain:
 | When you need... | Use this | MCP tool |
 |-----------------|---------|----------|
 | Web-grounded facts | Perplexity | `perplexity_run` |
-| Large file analysis | Gemini 3 Pro | `gemini_run` |
+| Large file analysis | Gemini 3.1 Pro | `gemini_run` |
 | Hard reasoning | Opus / GPT-5.4 | native or `chatgpt_run` |
 | Fast coding | Sonnet / Codex | native or `codex_run` |
 | Real-time knowledge | Grok | `grok_run` |

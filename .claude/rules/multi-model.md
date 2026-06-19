@@ -11,13 +11,13 @@ When deciding which model to use, follow this routing logic:
 | Web research, fact-checking | Perplexity sonar-pro | Gemini with search | Low |
 | Deep research with citations | Perplexity sonar-deep-research | Grok (web-grounded) | Medium |
 | Architecture, system design | Claude Opus 4.8 / GPT-5.4 | Grok reasoning | High |
-| Code implementation | Claude Sonnet 4.6 / Codex | Gemini 3 Flash | Medium |
+| Code implementation | Claude Sonnet 4.6 / Codex | Gemini 3.5 Flash | Medium |
 | Code review (security) | Claude Opus 4.8 | GPT-5.4 | High |
 | Code review (general) | Different provider than implementer | - | Medium |
-| Quick formatting, classification | Haiku 4.5 / GPT-5-mini / local LLM | - | Very Low |
-| Large file analysis (>100K tokens) | Gemini 3 Pro (1M+ context) | Claude Opus 4.8 (1M) | Medium |
+| Quick formatting, classification | Haiku 4.5 / GPT-5.4 Mini / local LLM | - | Very Low |
+| Large file analysis (>100K tokens) | Gemini 3.1 Pro (1M+ context) | Claude Opus 4.8 (1M) | Medium |
 | Creative writing, brainstorming | Claude Opus 4.8 / GPT-5.4 | Grok | Medium |
-| Data extraction, parsing | Local LLM / Haiku 4.5 | GPT-5-mini | Very Low |
+| Data extraction, parsing | Local LLM / Haiku 4.5 | GPT-5.4 Mini | Very Low |
 
 ### 2. Cost-Aware Escalation
 
@@ -26,7 +26,7 @@ Start with the cheapest model that can handle the task. Escalate only when:
 - The task requires reasoning beyond the model's capability
 - Security or safety concerns demand higher accuracy
 
-**Escalation path**: Local LLM -> Haiku 4.5 -> Sonnet 4.6/GPT-5-mini -> Opus 4.8/GPT-5.4 -> Multi-model consensus
+**Escalation path**: Local LLM -> Haiku 4.5 -> Sonnet 4.6/GPT-5.4 Mini -> Opus 4.8/GPT-5.4 -> Multi-model consensus
 
 ### 3. Cross-Model Verification Pattern
 
@@ -53,8 +53,8 @@ If akido-mcp is available, prefer these MCP tools for routing:
 |----------|------------|------------|
 | Claude Opus 4.8/Sonnet 4.6 | 1M tokens | <200K (avoid surcharge) |
 | GPT-5.4 | Large | Mid-size |
-| Gemini 3 Pro | Very large (1M+ tokens) | Any size |
-| Gemini 3 Flash | Very large (1M+ tokens) | Any size |
+| Gemini 3.1 Pro | Very large (1M+ tokens) | Any size |
+| Gemini 3.5 Flash | Very large (1M+ tokens) | Any size |
 | Grok 4.x | Large | Mid-size |
 | Local LLM | 4-32K typical | <8K |
 

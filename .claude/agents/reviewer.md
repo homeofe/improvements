@@ -54,7 +54,7 @@ Review completed code for correctness, security, performance, and adherence to c
 ## Multi-Model Review Pattern
 
 For critical code, recommend a cross-model review:
-- If implemented with Claude, review with GPT-5.4 or Gemini 3 Pro
+- If implemented with Claude, review with GPT-5.4 or Gemini 3.1 Pro
 - If implemented with GPT-5.4, review with Claude
 - Document which models reviewed the code
 

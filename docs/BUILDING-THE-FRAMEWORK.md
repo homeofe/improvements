@@ -54,7 +54,7 @@ Start with the cheapest model that might handle the task. Escalate only when the
 is wrong, incomplete, or the stakes demand more accuracy.
 
 ```
-Local LLM (free) -> Haiku -> Sonnet / GPT-5-mini -> Opus / GPT-5.4 -> Multi-model consensus
+Local LLM (free) -> Haiku -> Sonnet / GPT-5.4 Mini -> Opus / GPT-5.4 -> Multi-model consensus
 ```
 
 The default is cheap. Expensive is something you choose on purpose, with a reason logged.
@@ -234,7 +234,7 @@ A routing matrix looks like this (trimmed):
 | Task type | Primary | Cost tier |
 |-----------|---------|-----------|
 | Web research | Perplexity / Grok | Low |
-| Large file analysis (>100K) | Gemini 3 Pro (very large context) | Medium |
+| Large file analysis (>100K) | Gemini 3.1 Pro (very large context) | Medium |
 | Architecture | Opus / GPT-5.4 | High |
 | Implementation | Sonnet / Codex | Medium |
 | Review | Different provider than implementer | Medium |

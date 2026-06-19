@@ -28,11 +28,11 @@ The most important pattern for high-quality AI-assisted work.
 Start with the cheapest model. Escalate only when quality is insufficient.
 
 ```
-Attempt 1: Local LLM / Haiku / GPT-5-mini
+Attempt 1: Local LLM / Haiku / GPT-5.4 Mini
   - Simple tasks succeed here (80% of daily work)
   - If output is correct -> done
 
-Attempt 2: Sonnet / Gemini 3 Flash
+Attempt 2: Sonnet / Gemini 3.5 Flash
   - Standard complexity tasks
   - If output is correct -> done
 
@@ -95,7 +95,7 @@ Medium context (8K-128K): Most cloud models
   - Add project conventions
   - Room for back-and-forth
 
-Large context (128K-1M+): Gemini 3 Pro, Claude
+Large context (128K-1M+): Gemini 3.1 Pro, Claude
   - Can include entire codebases
   - But: more context != better results
   - Focus attention with clear instructions
@@ -132,7 +132,7 @@ For critical decisions, run the same question through multiple models.
 2. Send to 2-3 different model families:
    - Claude Opus
    - GPT-5.4
-   - Gemini 3 Pro
+   - Gemini 3.1 Pro
 3. Compare responses:
    - All agree -> High confidence
    - 2/3 agree -> Medium confidence, investigate disagreement
