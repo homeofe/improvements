@@ -1,110 +1,65 @@
 {
   "aahp_version": "3.0",
-  "project": "ai-workflow-improvement-framework",
+  "project": "your-project",
   "last_session": {
-    "agent": "claude-sonnet-4-6",
-    "session_id": "improvements-2026-04-14-t004-t005",
-    "timestamp": "2026-04-14T00:00:00Z",
-    "commit": "(pending)",
-    "phase": "implementation",
-    "duration_minutes": 20
+    "agent": "your-agent",
+    "session_id": "fresh-install",
+    "timestamp": "YYYY-MM-DDT00:00:00Z",
+    "commit": "(none yet)",
+    "phase": "install",
+    "duration_minutes": 0
   },
   "files": {
     "STATUS.md": {
-      "checksum": "sha256:d9874900c60c0091f21b479261d8f6f28e50135c2e4e2230a293d368f5255691",
-      "updated": "2026-04-12T15:30:00Z",
-      "lines": 96,
-      "summary": "Framework complete and tested. Integrated into Shield + AEGIS. All 5 commands verified."
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "updated": "YYYY-MM-DDT00:00:00Z",
+      "summary": "Fresh install. No project-specific work yet. Seed task T-001 ready."
     },
     "NEXT_ACTIONS.md": {
-      "checksum": "sha256:19f12ccf5c2fcd73ebc36e34d1d2a12e58ff3e8d2c373af2ea59f53820f4f8a7",
-      "updated": "2026-04-14T00:00:00Z",
-      "lines": 30,
-      "summary": "All tasks complete. T-004 and T-005 done. Framework fully operational."
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "updated": "YYYY-MM-DDT00:00:00Z",
+      "summary": "One open task: T-001 customize the framework for your project."
     },
     "LOG.md": {
-      "checksum": "sha256:8fb74c252a69371f85c730133fdd0a881a666f9509b63da0265145a826385223",
-      "updated": "2026-04-12T15:30:00Z",
-      "lines": 116,
-      "summary": "3 entries. Latest: command verification + handoff. All 5 commands tested successfully."
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "updated": "YYYY-MM-DDT00:00:00Z",
+      "summary": "One generic install entry. Replace with your first real session."
     },
     "DASHBOARD.md": {
-      "checksum": "sha256:31984fef01b342a1c495ebecca925a6461881d76bd4e0914edf038a8f8509420",
-      "updated": "2026-04-12T15:30:00Z",
-      "lines": 93,
-      "summary": "9 components verified. Commands verified. Deployed to Shield + AEGIS. 2 tasks open."
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "updated": "YYYY-MM-DDT00:00:00Z",
+      "summary": "Generic component table. Pipeline and build not yet configured."
     },
     "TRUST.md": {
-      "checksum": "sha256:826b9cb7d743bec3b54cc5180d863337ed30e1324ac37a161109d9d75d566920",
-      "updated": "2026-04-12T14:00:00Z",
-      "lines": 83,
-      "summary": "Framework files verified. Commands now verified. Content quality assumed."
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "updated": "YYYY-MM-DDT00:00:00Z",
+      "summary": "Generic example trust entries for a fresh install."
     },
     "CONVENTIONS.md": {
-      "checksum": "sha256:b760ae95bcc0d65824aa81369c6b9a1a0a18f1e38c0a4ae749d566c03afd03af",
-      "updated": "2026-04-12T14:00:00Z",
-      "lines": 107,
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "updated": "YYYY-MM-DDT00:00:00Z",
       "summary": "LLM-agnostic conventions. Three Laws. Multi-model rules. No em dashes."
     },
     "WORKFLOW.md": {
-      "checksum": "sha256:d487d08724971d86615be9aae28a0ee09e7f3566950c5d5fbe0b9671e951e40b",
-      "updated": "2026-04-12T14:00:00Z",
-      "lines": 183,
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "updated": "YYYY-MM-DDT00:00:00Z",
       "summary": "5-phase pipeline with model routing. Researcher-Architect-Implementer-Reviewer-Handoff."
     }
   },
-  "quick_context": "Framework complete. All 5 tasks done. T-004: scripts/init-framework.sh installs framework into any project. T-005: validate-edit.sh hook wired in settings.json. Issues #2 and #3 resolved.",
+  "quick_context": "Fresh install of the AI Workflow Improvement Framework. No project-specific work has been done yet. Start with T-001: customize the framework for your project (CLAUDE.md, .llm/ configs, and these handoff files), then add your own tasks.",
   "token_budget": {
     "manifest_only": 220,
     "manifest_plus_core": 700,
     "full_read": 4000
   },
-  "next_task_id": 6,
-  "github_issues": "https://github.com/homeofe/improvements/issues",
+  "next_task_id": 2,
   "tasks": {
     "T-001": {
-      "title": "Design framework structure",
-      "status": "done",
-      "priority": "critical",
-      "depends_on": [],
-      "created": "2026-04-12T13:30:00Z",
-      "completed": "2026-04-12T13:45:00Z"
-    },
-    "T-002": {
-      "title": "Create all framework files",
-      "status": "done",
-      "priority": "critical",
-      "depends_on": ["T-001"],
-      "created": "2026-04-12T13:30:00Z",
-      "completed": "2026-04-12T14:00:00Z"
-    },
-    "T-003": {
-      "title": "Test framework in a real project",
-      "status": "done",
+      "title": "Customize the framework for your project",
+      "status": "ready",
       "priority": "high",
-      "depends_on": ["T-002"],
-      "github_issue": 1,
-      "assigned_to": "claude-opus-4.6",
-      "created": "2026-04-12T14:00:00Z",
-      "completed": "2026-04-12T15:30:00Z"
-    },
-    "T-004": {
-      "title": "Add template packaging script",
-      "status": "done",
-      "priority": "medium",
-      "depends_on": ["T-002"],
-      "github_issue": 2,
-      "created": "2026-04-12T14:00:00Z",
-      "completed": "2026-04-14T00:00:00Z"
-    },
-    "T-005": {
-      "title": "Add PostToolUse hooks for quality enforcement",
-      "status": "done",
-      "priority": "medium",
-      "depends_on": ["T-002"],
-      "github_issue": 3,
-      "created": "2026-04-12T14:00:00Z",
-      "completed": "2026-04-14T00:00:00Z"
+      "depends_on": [],
+      "created": "YYYY-MM-DDT00:00:00Z"
     }
   }
 }

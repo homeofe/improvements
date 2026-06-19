@@ -54,7 +54,7 @@ Start with the cheapest model that might handle the task. Escalate only when the
 is wrong, incomplete, or the stakes demand more accuracy.
 
 ```
-Local LLM (free) -> Haiku -> Sonnet / GPT-4-mini -> Opus / GPT-4 -> Multi-model consensus
+Local LLM (free) -> Haiku -> Sonnet / GPT-5-mini -> Opus / GPT-5.4 -> Multi-model consensus
 ```
 
 The default is cheap. Expensive is something you choose on purpose, with a reason logged.
@@ -65,7 +65,7 @@ This is the single highest-leverage quality pattern. Different model families ha
 different blind spots, so a second family catches what the first cannot see in its own work.
 
 > **Hard rule:** the reviewer must be a different model family than the implementer.
-> If Sonnet wrote it, GPT-4 or Gemini reviews it. Never self-review critical code.
+> If Sonnet wrote it, GPT-5.4 or Gemini reviews it. Never self-review critical code.
 
 ### 2.4 Hand off compact state, never raw history
 
@@ -180,7 +180,7 @@ The five agents form a pipeline that mirrors how a careful team ships a change:
 | Phase | Agent | Default model | Responsibility |
 |-------|-------|---------------|----------------|
 | 1 | researcher | web-grounded or large-context | Gather context, evaluate existing solutions, clarify the task |
-| 2 | architect | top reasoner (Opus / GPT-4) | Decide the design, write an ADR with implementation steps |
+| 2 | architect | top reasoner (Opus / GPT-5.4) | Decide the design, write an ADR with implementation steps |
 | 3 | implementer | fast coder (Sonnet / Codex) | Branch, code, test, commit |
 | 4 | reviewer | different family than phase 3 | Second opinion, security, edge cases |
 | 5 | handoff-manager | cheapest (Haiku / local) | Update state files, checksums, task lifecycle |
@@ -234,8 +234,8 @@ A routing matrix looks like this (trimmed):
 | Task type | Primary | Cost tier |
 |-----------|---------|-----------|
 | Web research | Perplexity / Grok | Low |
-| Large file analysis (>100K) | Gemini Pro (1M context) | Medium |
-| Architecture | Opus / GPT-4 | High |
+| Large file analysis (>100K) | Gemini 3 Pro (very large context) | Medium |
+| Architecture | Opus / GPT-5.4 | High |
 | Implementation | Sonnet / Codex | Medium |
 | Review | Different provider than implementer | Medium |
 | Quick formatting | Haiku / local LLM | Very low |

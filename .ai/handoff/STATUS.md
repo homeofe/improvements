@@ -1,7 +1,7 @@
 # AI Workflow Improvement Framework: Current State of the Nation
 
-> Last updated: 2026-04-12 by claude-opus-4.6
-> Commit: 61c6293
+> Last updated: YYYY-MM-DD by your-agent
+> Commit: (none yet)
 >
 > **Rule:** This file is rewritten (not appended) at the end of every session.
 > It reflects the *current* reality, not history. History lives in LOG.md.
@@ -11,9 +11,10 @@
 <!-- SECTION: summary -->
 ## Summary
 
-Framework complete and tested. Integrated into 2 real projects (Shield, AEGIS).
-All 5 custom commands verified working (/status, /next, /route, /review-cycle, /handoff).
-GitHub repo live at github.com/homeofe/improvements. T-003 done, 2 tasks remaining.
+Fresh install of the AI Workflow Improvement Framework. No project-specific work
+has been done yet. One seed task is ready: T-001 "Customize the framework for
+your project". Replace the placeholders in this file with your project's real
+state once you start working.
 <!-- /SECTION: summary -->
 
 ---
@@ -23,15 +24,9 @@ GitHub repo live at github.com/homeofe/improvements. T-003 done, 2 tasks remaini
 
 | Check | Result | Notes |
 |-------|--------|-------|
-| Framework structure | (Verified) | 30 files across 4 layers |
-| CLAUDE.md | (Verified) | Loads correctly in Claude Code session |
-| Rules (4 files) | (Verified) | Loaded as session rules |
-| Agents (5 files) | (Verified) | Available for subagent spawning |
-| Commands (5 files) | (Verified) | All 5 tested: status, next, route, review-cycle, handoff |
-| LLM configs (4 files) | (Verified) | Routing produces sensible recommendations |
-| AAHP handoff (8 files) | (Verified) | Checksums valid, task graph functional |
-| GitHub repo | (Verified) | github.com/homeofe/improvements, 2 commits pushed |
-| GitHub issues synced | (Verified) | Issues #1 (closed), #2, #3 linked to AAHP tasks |
+| Framework structure | (Verified) | Handoff files present and well-formed |
+| Build/test pipeline | (Unknown) | Not yet configured for your project |
+| CLAUDE.md | (Unknown) | Customize for your project |
 <!-- /SECTION: build_health -->
 
 ---
@@ -41,11 +36,9 @@ GitHub repo live at github.com/homeofe/improvements. T-003 done, 2 tasks remaini
 
 | Component | Location | State |
 |-----------|----------|-------|
-| Framework files | `.claude/`, `.llm/`, `.ai/handoff/` | (Verified) |
-| Git repository | github.com/homeofe/improvements | (Verified) 2 commits |
-| Shield integration | elvatis-security-platform | (Verified) 20 files added, pushed |
-| AEGIS integration | AEGIS/ | (Verified) 17 files added, pushed |
-| AAHP CLI | `npm i -g @elvatis_com/aahp` | (Assumed) Available if installed |
+| Framework files | `.claude/`, `.llm/`, `.ai/handoff/` | (Verified) Present |
+| Git repository | (your remote here) | (Unknown) Not yet configured |
+| Build tooling | (your build system here) | (Unknown) Not yet configured |
 <!-- /SECTION: infrastructure -->
 
 ---
@@ -55,14 +48,10 @@ GitHub repo live at github.com/homeofe/improvements. T-003 done, 2 tasks remaini
 
 | Component | Files | State | Notes |
 |-----------|-------|-------|-------|
-| Claude Code rules | 4 | (Verified) | aahp-protocol, multi-model, safety, handoff |
-| Custom agents | 5 | (Verified) | researcher, architect, implementer, reviewer, handoff-manager |
-| Custom commands | 5 | (Verified) | handoff, route, status, next, review-cycle |
-| LLM routing | 4 | (Verified) | Provider-agnostic decision matrix |
-| AAHP state | 8 | (Verified) | Populated with real data |
-| Root CLAUDE.md | 1 | (Verified) | Project entry point |
-| README.md | 1 | (Verified) | Public documentation |
-| INTEGRATION.md | 1 | (Verified) | Step-by-step adoption guide |
+| AAHP handoff state | 8 | (Verified) | This `.ai/handoff/` directory |
+| Root CLAUDE.md | 1 | (Unknown) | Customize for your project |
+
+> Add your own components here as you build them.
 <!-- /SECTION: components -->
 
 ---
@@ -72,9 +61,7 @@ GitHub repo live at github.com/homeofe/improvements. T-003 done, 2 tasks remaini
 
 | Gap | Severity | Description |
 |-----|----------|-------------|
-| Hook enforcement | MEDIUM | PostToolUse hooks not yet configured (T-005, Issue #3) |
-| Template packaging | MEDIUM | No script to copy framework to other projects (T-004, Issue #2) |
-| launch.json | LOW | No dev server config (not needed for this project) |
+| Project customization | HIGH | Framework still in fresh-install state (T-001) |
 <!-- /SECTION: what_is_missing -->
 
 ---
@@ -83,9 +70,7 @@ GitHub repo live at github.com/homeofe/improvements. T-003 done, 2 tasks remaini
 
 | Item | Resolution |
 |------|-----------|
-| Git initialization | Repo created at github.com/homeofe/improvements |
-| Real-world testing | Integrated into Shield (85K LoC) and AEGIS (27 packages) |
-| GitHub issue sync | Issues #1-#3 linked to AAHP tasks T-003 through T-005 |
+| (none yet) | First session has not run |
 
 ---
 

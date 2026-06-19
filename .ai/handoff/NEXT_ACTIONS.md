@@ -6,11 +6,15 @@
 
 ---
 
-## No open tasks
+## Open Tasks
 
-All tasks complete. The framework is fully operational and portable.
+| ID | Task | Priority | Blocked by | Ready? |
+|----|------|----------|-----------|--------|
+| T-001 | Customize the framework for your project | HIGH | - | Ready |
 
-To add new tasks, follow AAHP protocol: assign T-006+ IDs, update MANIFEST.json.
+**T-001 details:** Update `CLAUDE.md`, the `.llm/` routing configs, and these
+`.ai/handoff/` files to describe your real project. Configure your build and
+test pipeline, then mark this task done and add your own T-002+ tasks.
 
 ---
 
@@ -18,11 +22,7 @@ To add new tasks, follow AAHP protocol: assign T-006+ IDs, update MANIFEST.json.
 
 | Item | Resolution |
 |------|-----------|
-| T-005: PostToolUse hooks | validate-edit.sh + settings.json hook wired. Fires on Edit/Write. |
-| T-004: Template packaging script | scripts/init-framework.sh - copies framework into any project |
-| T-003: Test framework in real project | Integrated into Shield + AEGIS, all 5 commands verified (Issue #1 closed) |
-| T-002: Create all framework files | 30 files created across 4 layers |
-| T-001: Design framework structure | 4-layer architecture designed and implemented |
+| (none yet) | This is a fresh install |
 
 ---
 
@@ -37,5 +37,3 @@ To add new tasks, follow AAHP protocol: assign T-006+ IDs, update MANIFEST.json.
 | Custom commands | `.claude/commands/*.md` |
 | Custom agents | `.claude/agents/*.md` |
 | AAHP handoff state | `.ai/handoff/` |
-| **Install script** | `scripts/init-framework.sh` |
-| **Edit validator** | `scripts/validate-edit.sh` |

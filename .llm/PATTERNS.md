@@ -11,7 +11,7 @@ The most important pattern for high-quality AI-assisted work.
    - Write the code, tests, documentation
    - Model A has blind spots from its training
 
-2. REVIEW with Model B (e.g., GPT-4)
+2. REVIEW with Model B (e.g., GPT-5.4)
    - Different model family catches different issues
    - Focus: correctness, edge cases, security
 
@@ -28,15 +28,15 @@ The most important pattern for high-quality AI-assisted work.
 Start with the cheapest model. Escalate only when quality is insufficient.
 
 ```
-Attempt 1: Local LLM / Haiku / GPT-4-mini
+Attempt 1: Local LLM / Haiku / GPT-5-mini
   - Simple tasks succeed here (80% of daily work)
   - If output is correct -> done
 
-Attempt 2: Sonnet / Gemini Flash
+Attempt 2: Sonnet / Gemini 3 Flash
   - Standard complexity tasks
   - If output is correct -> done
 
-Attempt 3: Opus / GPT-4
+Attempt 3: Opus / GPT-5.4
   - Complex reasoning required
   - Architecture decisions
   - Security analysis
@@ -60,7 +60,7 @@ Phase 1: RESEARCH
   Token cost: Low (focused query)
 
 Phase 2: ARCHITECTURE
-  Model: Opus / GPT-4 (high reasoning)
+  Model: Opus / GPT-5.4 (high reasoning)
   Input: Research summary (not raw search results)
   Output: ADR with implementation instructions
   Token cost: Medium
@@ -95,7 +95,7 @@ Medium context (8K-128K): Most cloud models
   - Add project conventions
   - Room for back-and-forth
 
-Large context (128K-1M): Gemini, Claude
+Large context (128K-1M+): Gemini 3 Pro, Claude
   - Can include entire codebases
   - But: more context != better results
   - Focus attention with clear instructions
@@ -131,8 +131,8 @@ For critical decisions, run the same question through multiple models.
 1. Formulate the question clearly
 2. Send to 2-3 different model families:
    - Claude Opus
-   - GPT-4
-   - Gemini Pro
+   - GPT-5.4
+   - Gemini 3 Pro
 3. Compare responses:
    - All agree -> High confidence
    - 2/3 agree -> Medium confidence, investigate disagreement

@@ -50,7 +50,7 @@
 ## Agent Identity
 
 Every handoff file update must include:
-- Agent model name (e.g., claude-opus-4.6, gpt-4, gemini-pro)
+- Agent model name (e.g., claude-opus-4-8, gpt-5.4, gemini-3-pro)
 - Session identifier
 - ISO-8601 timestamp
 - Git commit reference (before and after)

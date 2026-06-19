@@ -11,8 +11,8 @@
 | Agent | Primary Model | Fallback | Role | Responsibility |
 |-------|--------------|----------|------|---------------|
 | Researcher | Perplexity sonar-pro | Gemini + search | Research | OSS research, compliance, doc review |
-| Architect | Claude Opus / GPT-4 | Grok reasoning | Design | System design, ADRs, interfaces |
-| Implementer | Claude Sonnet / Codex | Gemini Flash | Build | Code, tests, refactoring, commits |
+| Architect | Claude Opus / GPT-5.4 | Grok reasoning | Design | System design, ADRs, interfaces |
+| Implementer | Claude Sonnet / Codex | Gemini 3 Flash | Build | Code, tests, refactoring, commits |
 | Reviewer | Different provider | - | Review | Second opinion, security, edge cases |
 | Handoff Manager | Haiku | Local LLM | State | MANIFEST.json, checksums, task lifecycle |
 
@@ -45,7 +45,7 @@ MCP tools (if available):
 ### Phase 2: Architecture Decision (Architect Agent)
 
 ```
-Model:   Claude Opus or GPT-4 (high reasoning)
+Model:   Claude Opus or GPT-5.4 (high reasoning)
 Reads:   Research output from LOG.md
          handoff/STATUS.md
          Relevant source files, config, docs
@@ -91,7 +91,7 @@ Commit format:
 
 ```
 Model:   DIFFERENT provider than Phase 3
-         e.g., if Sonnet implemented -> GPT-4 reviews
+         e.g., if Sonnet implemented -> GPT-5.4 reviews
          e.g., if Codex implemented -> Opus reviews
 
 All agents review the completed code:
@@ -169,8 +169,8 @@ If an agent fails or is uncertain:
 | When you need... | Use this | MCP tool |
 |-----------------|---------|----------|
 | Web-grounded facts | Perplexity | `perplexity_run` |
-| Large file analysis | Gemini Pro | `gemini_run` |
-| Hard reasoning | Opus / GPT-4 | native or `chatgpt_run` |
+| Large file analysis | Gemini 3 Pro | `gemini_run` |
+| Hard reasoning | Opus / GPT-5.4 | native or `chatgpt_run` |
 | Fast coding | Sonnet / Codex | native or `codex_run` |
 | Real-time knowledge | Grok | `grok_run` |
 | Free/private tasks | Local LLM | `local_llm_run` |

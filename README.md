@@ -37,7 +37,7 @@ your-project/
       handoff.md                # How to read/write AAHP state files
     agents/
       researcher.md             # Phase 1: Research (Perplexity/Gemini)
-      architect.md              # Phase 2: Architecture (Opus/GPT-4)
+      architect.md              # Phase 2: Architecture (Opus/GPT-5.4)
       implementer.md            # Phase 3: Implementation (Sonnet/Codex)
       reviewer.md               # Phase 4: Review (cross-model)
       handoff-manager.md        # Phase 5: State management (Haiku)
@@ -90,8 +90,8 @@ Don't use Opus for everything. The framework includes a routing decision tree:
 | Task Type | Recommended Model | Cost Tier |
 |-----------|------------------|-----------|
 | Web research | Perplexity / Grok | Low |
-| Large file analysis | Gemini Pro (1M context) | Medium |
-| Architecture | Opus / GPT-4 | High |
+| Large file analysis | Gemini 3 Pro (very large context, 1M+ tokens) | Medium |
+| Architecture | Opus / GPT-5.4 | High |
 | Code implementation | Sonnet / Codex | Medium |
 | Code review | Different provider than implementer | Medium |
 | Quick formatting | Haiku / local LLM | Very Low |

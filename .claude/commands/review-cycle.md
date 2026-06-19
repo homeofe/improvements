@@ -25,7 +25,7 @@ Run a multi-model review cycle on recent changes.
 
 4. Recommend cross-model review:
    Based on `.llm/ROUTING.md`, suggest which external model should provide a second opinion:
-   - Security changes -> suggest Opus or GPT-4 review
+   - Security changes -> suggest Opus or GPT-5.4 review
    - Performance changes -> suggest Gemini analysis
    - General code -> suggest different provider than implementer
 

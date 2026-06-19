@@ -46,11 +46,11 @@
 ## Multi-Model Strategy
 
 When working on this project, consider routing tasks to the best model:
-- **Research**: Perplexity (web-grounded), Gemini (large context)
-- **Architecture**: Opus, GPT-4 (hard reasoning)
-- **Implementation**: Sonnet, Codex (fast coding)
+- **Research**: Perplexity (web-grounded), Gemini 3 Pro (very large context)
+- **Architecture**: Opus 4.8, GPT-5.4 (hard reasoning)
+- **Implementation**: Sonnet 4.6, Codex (fast coding)
 - **Review**: Use a different provider than the implementer
-- **Quick tasks**: Haiku, GPT-4-mini, local LLM
+- **Quick tasks**: Haiku 4.5, GPT-5-mini, local LLM
 
 See `.llm/ROUTING.md` for the full decision matrix.
 
