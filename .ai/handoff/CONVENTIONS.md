@@ -55,7 +55,7 @@ Commit format:
 ## Multi-Model Rules
 
 - **Cross-model review**: Security-sensitive code must be reviewed by a different provider
-- **Model routing**: Follow `.llm/ROUTING.md` for task-to-model mapping
+- **Model routing**: Follow `.llm/ROUTING.md` for the task to model mapping
 - **Cost escalation**: Start cheap, escalate only when needed
 - **Provenance tracking**: Log which model produced what in LOG.md
 

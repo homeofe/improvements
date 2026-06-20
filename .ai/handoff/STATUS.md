@@ -1,7 +1,7 @@
 # AI Workflow Improvement Framework: Current State of the Nation
 
-> Last updated: YYYY-MM-DD by your-agent
-> Commit: (none yet)
+> Last updated: 2026-06-20 by Claude Opus 4.8 (1M context)
+> Commit: (pending)
 >
 > **Rule:** This file is rewritten (not appended) at the end of every session.
 > It reflects the *current* reality, not history. History lives in LOG.md.
@@ -11,10 +11,14 @@
 <!-- SECTION: summary -->
 ## Summary
 
-Fresh install of the AI Workflow Improvement Framework. No project-specific work
-has been done yet. One seed task is ready: T-001 "Customize the framework for
-your project". Replace the placeholders in this file with your project's real
-state once you start working.
+The AI Workflow Improvement Framework now ships the AAHP verify gate. As the
+first propagation target from the AAHP protocol repo, this framework carries
+`scripts/verify-handoff.sh` plus the pre-commit and pre-push hooks
+(`scripts/install-hooks.sh`) and the `.github/workflows/aahp-verify.yml` CI
+check, so every project that installs this framework also gets the gate against
+staled handoff state. The seed task T-001 "Customize the framework for your
+project" is still ready for consumers. The gate is verify-only: it never
+regenerates MANIFEST.json (that stays a separate /handoff step).
 <!-- /SECTION: summary -->
 
 ---
@@ -25,6 +29,7 @@ state once you start working.
 | Check | Result | Notes |
 |-------|--------|-------|
 | Framework structure | (Verified) | Handoff files present and well-formed |
+| AAHP verify gate | (Verified) | scripts/verify-handoff.sh installed; hooks wired via install-hooks.sh |
 | Build/test pipeline | (Unknown) | Not yet configured for your project |
 | CLAUDE.md | (Unknown) | Customize for your project |
 <!-- /SECTION: build_health -->
@@ -49,6 +54,8 @@ state once you start working.
 | Component | Files | State | Notes |
 |-----------|-------|-------|-------|
 | AAHP handoff state | 8 | (Verified) | This `.ai/handoff/` directory |
+| AAHP verify gate | 6 | (Verified) | scripts/verify-handoff.sh, _aahp-lib.sh, lint-handoff.sh, hooks/, install-hooks.sh |
+| Verify CI workflow | 1 | (Verified) | .github/workflows/aahp-verify.yml (inert until Actions re-enabled) |
 | Root CLAUDE.md | 1 | (Unknown) | Customize for your project |
 
 > Add your own components here as you build them.
@@ -70,7 +77,7 @@ state once you start working.
 
 | Item | Resolution |
 |------|-----------|
-| (none yet) | First session has not run |
+| Install AAHP verify gate | Copied verify-handoff.sh + hooks + CI from AAHP; hooks installed; baseline green |
 
 ---
 

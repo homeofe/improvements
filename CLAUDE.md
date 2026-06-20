@@ -63,6 +63,26 @@ This project uses AAHP v3 for structured handoff between AI agents. Key rules:
 - Mark trust claims with TTL
 - See `.claude/rules/aahp-protocol.md` for full protocol
 
+## AAHP Verify Gate
+
+This framework ships the canonical handoff gate, `scripts/verify-handoff.sh`
+(`aahp verify`). It runs 4 layers: MANIFEST checksum integrity, the content-drift
+gate (any source change outside `.ai/handoff/` must include `STATUS.md` AND a
+regenerated `MANIFEST.json`, else hard-fail), commit-pointer freshness, and
+TRUST-TTL expiry. Wire it locally once:
+
+```bash
+bash scripts/install-hooks.sh .     # installs pre-commit + pre-push hooks
+```
+
+- The gate is verify-only; it never regenerates `MANIFEST.json`. Run `/handoff`
+  to refresh `STATUS.md` + `MANIFEST.json`, then commit.
+- Escape hatch `AAHP_SKIP_VERIFY=1` skips LOCAL verification only and is caught
+  by the required CI check (`aahp verify --level ci`). Do NOT use it to bypass
+  CI. Never use `git commit/push --no-verify`.
+- The CI workflow `.github/workflows/aahp-verify.yml` is committed but inert
+  until GitHub Actions is re-enabled org-wide.
+
 ## Style Rules
 
 - Never use em dashes (the U+2014 character) in any content: documentation, markdown, README, code comments, GitHub issue titles, or handoff files. Use a plain hyphen (-) instead.

@@ -6,6 +6,38 @@
 
 ---
 
+## 2026-06-20 Claude Opus 4.8 (1M context): AAHP verify gate installed
+
+**Agent:** Claude Opus 4.8 (1M context)
+**Phase:** implementation
+
+### What was done
+
+- Propagated the AAHP verify gate from the AAHP protocol repo into this
+  framework (the first propagation target). Added scripts/verify-handoff.sh,
+  scripts/_aahp-lib.sh, scripts/lint-handoff.sh, scripts/hooks/pre-commit,
+  scripts/hooks/pre-push, scripts/install-hooks.sh, and
+  .github/workflows/aahp-verify.yml.
+- Installed the pre-commit and pre-push hooks into this repo via
+  scripts/install-hooks.sh.
+- Regenerated MANIFEST.json so checksums match the real handoff files (the
+  fresh-install template had zeroed checksums) and established a green baseline.
+
+### Decisions made
+
+- The gate ships inside the framework so every consumer project that installs
+  this framework also gets the gate. The CI workflow is committed inert
+  (GitHub Actions is OFF org-wide for a cost sweep) and activates when Actions
+  is re-enabled; the local hooks enforce in the meantime.
+- Kept the framework's template/seed framing (T-001 still ready for consumers).
+
+### Open items
+
+- Consumers run scripts/install-hooks.sh after copying the framework to wire the
+  hooks locally.
+
+---
+
 ## YYYY-MM-DD your-agent: Framework installed
 
 **Agent:** your-agent

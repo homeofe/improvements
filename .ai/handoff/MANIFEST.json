@@ -1,65 +1,64 @@
 {
   "aahp_version": "3.0",
-  "project": "your-project",
+  "project": "improvements",
   "last_session": {
-    "agent": "your-agent",
-    "session_id": "fresh-install",
-    "timestamp": "YYYY-MM-DDT00:00:00Z",
-    "commit": "(none yet)",
-    "phase": "install",
+    "agent": "claude-opus-4.8",
+    "session_id": "cli-1781959436",
+    "timestamp": "2026-06-20T12:43:56Z",
+    "commit": "8452cd7",
+    "phase": "implementation",
     "duration_minutes": 0
   },
   "files": {
     "STATUS.md": {
-      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "updated": "YYYY-MM-DDT00:00:00Z",
-      "summary": "Fresh install. No project-specific work yet. Seed task T-001 ready."
+      "checksum": "sha256:1c5295de919273cb31b2de14dc7b3fac3011bdc4473ea6f1ee3212c12a43bb77",
+      "updated": "2026-06-20T12:42:11Z",
+      "lines": 88,
+      "summary": "(no summary available)"
     },
     "NEXT_ACTIONS.md": {
-      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "updated": "YYYY-MM-DDT00:00:00Z",
-      "summary": "One open task: T-001 customize the framework for your project."
+      "checksum": "sha256:96b3682dddb00c18d3cd76b10975069e229fd679a6a79cbd19f8300f290911cd",
+      "updated": "2026-06-19T10:49:19Z",
+      "lines": 39,
+      "summary": "(no summary available)"
     },
     "LOG.md": {
-      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "updated": "YYYY-MM-DDT00:00:00Z",
-      "summary": "One generic install entry. Replace with your first real session."
+      "checksum": "sha256:1ae0bb83cdc0c33a3799ead39401ec40ac555ec6cf523221ce12e70b20f36935",
+      "updated": "2026-06-20T12:42:24Z",
+      "lines": 60,
+      "summary": "(no summary available)"
     },
     "DASHBOARD.md": {
-      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "updated": "YYYY-MM-DDT00:00:00Z",
-      "summary": "Generic component table. Pipeline and build not yet configured."
+      "checksum": "sha256:7ae1f8aa13f326da36a62886a3ff386cf8db64e21d4b99c54bb81c3142ccfd43",
+      "updated": "2026-06-19T10:49:38Z",
+      "lines": 76,
+      "summary": "(no summary available)"
     },
     "TRUST.md": {
-      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "updated": "YYYY-MM-DDT00:00:00Z",
-      "summary": "Generic example trust entries for a fresh install."
+      "checksum": "sha256:18eb618e052c8ee4639278f1fcf8b804dd7c42e911e8415aa2b6ae0cffd53cc3",
+      "updated": "2026-06-19T10:49:48Z",
+      "lines": 69,
+      "summary": "(no summary available)"
     },
     "CONVENTIONS.md": {
-      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "updated": "YYYY-MM-DDT00:00:00Z",
-      "summary": "LLM-agnostic conventions. Three Laws. Multi-model rules. No em dashes."
+      "checksum": "sha256:d1da335987a9fa33e50c9fe680dc646a63949717f492acca2af3b4bb8b0e3eb4",
+      "updated": "2026-06-20T12:43:49Z",
+      "lines": 107,
+      "summary": "(no summary available)"
     },
     "WORKFLOW.md": {
-      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
-      "updated": "YYYY-MM-DDT00:00:00Z",
-      "summary": "5-phase pipeline with model routing. Researcher-Architect-Implementer-Reviewer-Handoff."
+      "checksum": "sha256:65500d1d159c296e45c43d00b48396aeca7d21bfe414b3d0c21f8b937255003b",
+      "updated": "2026-06-19T11:01:50Z",
+      "lines": 183,
+      "summary": "(no summary available)"
     }
   },
-  "quick_context": "Fresh install of the AI Workflow Improvement Framework. No project-specific work has been done yet. Start with T-001: customize the framework for your project (CLAUDE.md, .llm/ configs, and these handoff files), then add your own tasks.",
+  "quick_context": "AAHP verify gate propagated into the framework (first target). Hooks installed; baseline green.",
   "token_budget": {
-    "manifest_only": 220,
-    "manifest_plus_core": 700,
-    "full_read": 4000
-  },
-  "next_task_id": 2,
-  "tasks": {
-    "T-001": {
-      "title": "Customize the framework for your project",
-      "status": "ready",
-      "priority": "high",
-      "depends_on": [],
-      "created": "YYYY-MM-DDT00:00:00Z"
-    }
+    "manifest_only": 85,
+    "manifest_plus_core": 908,
+    "full_read": 4206
   }
+  ,"next_task_id": 2
+  ,"tasks": {"T-001":{"title":"Customize the framework for your project","status":"ready","priority":"high","depends_on":[],"created":"YYYY-MM-DDT00:00:00Z"}}
 }
