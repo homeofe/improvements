@@ -79,6 +79,7 @@ regenerates MANIFEST.json (that stays a separate /handoff step).
 |------|-----------|
 | Install AAHP verify gate | Copied verify-handoff.sh + hooks + CI from AAHP; hooks installed; baseline green |
 | Tighten lint secret patterns | Length floor {16,} on sk-/ghp_/gho_/AKIA in scripts/lint-handoff.sh (synced from AAHP); fixes the "sk-to" false positive that had flagged CONVENTIONS.md |
+| Line-ending-agnostic checksums | Synced the CRLF/LF fix from AAHP: aahp_checksum (_aahp-lib.sh) + lint-handoff.sh strip CR before hashing, so handoff checksums match on Windows and Linux CI |
 
 ---
 
