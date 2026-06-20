@@ -2,18 +2,18 @@
   "aahp_version": "3.0",
   "project": "improvements",
   "last_session": {
-    "agent": "claude-opus-4.8",
-    "session_id": "cli-1781959436",
-    "timestamp": "2026-06-20T12:43:56Z",
-    "commit": "8452cd7",
-    "phase": "implementation",
+    "agent": "cli-tool",
+    "session_id": "cli-1781960308",
+    "timestamp": "2026-06-20T12:58:28Z",
+    "commit": "a2bd7ec",
+    "phase": "fix",
     "duration_minutes": 0
   },
   "files": {
     "STATUS.md": {
-      "checksum": "sha256:1c5295de919273cb31b2de14dc7b3fac3011bdc4473ea6f1ee3212c12a43bb77",
-      "updated": "2026-06-20T12:42:11Z",
-      "lines": 88,
+      "checksum": "sha256:c7f59ddb959237ddd9546b0a8f308593d0f346368bc3a19736ea980efea688bd",
+      "updated": "2026-06-20T12:58:16Z",
+      "lines": 89,
       "summary": "(no summary available)"
     },
     "NEXT_ACTIONS.md": {
@@ -53,11 +53,11 @@
       "summary": "(no summary available)"
     }
   },
-  "quick_context": "AAHP verify gate propagated into the framework (first target). Hooks installed; baseline green.",
+  "quick_context": "(no summary available) (no summary available) ",
   "token_budget": {
     "manifest_only": 85,
-    "manifest_plus_core": 908,
-    "full_read": 4206
+    "manifest_plus_core": 942,
+    "full_read": 4240
   }
   ,"next_task_id": 2
   ,"tasks": {"T-001":{"title":"Customize the framework for your project","status":"ready","priority":"high","depends_on":[],"created":"YYYY-MM-DDT00:00:00Z"}}
