@@ -1,5 +1,8 @@
 # AI Workflow Improvement Framework
 
+[![AAHP Verify](https://github.com/homeofe/improvements/actions/workflows/aahp-verify.yml/badge.svg)](https://github.com/homeofe/improvements/actions/workflows/aahp-verify.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 > A portable framework for improving daily AI-assisted development work. LLM-agnostic, built on the [AAHP Protocol](https://github.com/homeofe/AAHP).
 
 ---
