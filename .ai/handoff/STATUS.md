@@ -89,3 +89,5 @@ regenerates MANIFEST.json (that stays a separate /handoff step).
 - **(Verified)**: confirmed by running code/tests or direct file creation
 - **(Assumed)**: derived from docs/config, not directly tested
 - **(Unknown)**: needs verification
+
+> 2026-06-21 ci(aahp): fix unquoted next_task_id (invalid JSON) + lint-handoff noreply@ PII exclusion.
