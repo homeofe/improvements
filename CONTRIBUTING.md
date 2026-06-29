@@ -41,5 +41,5 @@ changes), open an issue first to discuss design and scope.
 
 ## License
 
-By contributing, you agree that your contributions are licensed under the terms
-of the project's [LICENSE](LICENSE).
+By contributing, you agree that your contributions are licensed under the
+[Apache License 2.0](LICENSE).

@@ -18,7 +18,9 @@ first propagation target from the AAHP protocol repo, this framework carries
 check, so every project that installs this framework also gets the gate against
 staled handoff state. The seed task T-001 "Customize the framework for your
 project" is still ready for consumers. The gate is verify-only: it never
-regenerates MANIFEST.json (that stays a separate /handoff step).
+regenerates MANIFEST.json (that stays a separate /handoff step). The repository
+license was migrated from MIT to the Apache License 2.0 to match the Elvatis
+convention.
 <!-- /SECTION: summary -->
 
 ---
