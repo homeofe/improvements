@@ -77,6 +77,7 @@ regenerates MANIFEST.json (that stays a separate /handoff step).
 
 | Item | Resolution |
 |------|-----------|
+| Add community-health files | 2026-06-29: Added SECURITY.md, CODE_OF_CONDUCT.md, CONTRIBUTING.md, and .github issue/PR templates (security, conduct, contributing, issue/PR templates) |
 | Add AAHP Swarm spec docs | 2026-06-29: Landed docs/AAHP-SWARM-v0.1.md and docs/AAHP-SWARM-v0.2.md (architecture concept v0.1 and v0.2) |
 | Add README status badges | 2026-06-21: Added AAHP Verify workflow badge + MIT License badge below the README H1 |
 | Install AAHP verify gate | Copied verify-handoff.sh + hooks + CI from AAHP; hooks installed; baseline green |
