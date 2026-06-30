@@ -95,3 +95,5 @@ convention.
 - **(Unknown)**: needs verification
 
 > 2026-06-21 ci(aahp): fix unquoted next_task_id (invalid JSON) + lint-handoff noreply@ PII exclusion.
+
+> 2026-06-30 ci: exempt Dependabot from the aahp-verify handoff gate (keep supply-chain-guard/codeql/build).
