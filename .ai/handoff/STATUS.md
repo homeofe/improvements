@@ -1,4 +1,10 @@
+> Note (2026-07-12, claude-opus-4-8): Reconciled the canonical gate scripts into a TRUE superset. BASE is now homeofe/supply-chain-guard main (newest; carries the PII allowlist system + validate-pii-allowlist.py), with the improvements-only path-format-agnostic fix folded in: lint-handoff.sh now invokes validate-pii-allowlist.py via a cwd-RELATIVE path (realpath --relative-to), fixing the Windows/MSYS "can't open file" artifact when an absolute /c/... path is passed to native python. Ported scripts/validate-pii-allowlist.py. Fixed the manifest project-corruption bug (aahp-manifest.sh now preserves an existing MANIFEST.json project field instead of overwriting it with a temp-dir basename). Hardened the sync bot: one consumer failure no longer aborts the fleet, an unparseable AAHP_HANDOFF_FILES line skips that consumer instead of injecting the superset, and a failed manifest regen no longer opens a half-refreshed PR. aahp_checksum stays byte-identical (db987255).
+
+> Note (2026-07-12, claude-opus-4-8): Added the config-aware gate-script sync (scripts/sync-gate-scripts.sh + .github/workflows/gate-sync.yml + docs/gate-sync.md). The canonical scripts/ is now the source of truth for the four gate scripts; the sync preserves each consumer's AAHP_HANDOFF_FILES line and folds the aahp_auto_summary CR-strip robustness fix into _aahp-lib.sh.
+
 # AI Workflow Improvement Framework: Current State of the Nation
+
+> Note (2026-07-12, claude-opus-4-8): aahp-manifest.sh refinements after review - reverted next_task_id to the quoted-string form (improvements 060512b intent; bare integer broke JSON on empty), and fixed the task-preservation node -e blocks to pass the manifest path as argv instead of interpolating it (the MSYS bug class: an absolute MSYS $HANDOFF_DIR silently dropped tasks/next_task_id on Windows during sync-bot regen). Verified: project + tasks + next_task_id preserved across an absolute-path regen.
 
 > Last updated: 2026-06-29 by Claude Opus 4.8 (1M context)
 > Commit: (pending)
@@ -79,6 +85,7 @@ convention.
 
 | Item | Resolution |
 |------|-----------|
+| Config-aware gate-script sync | 2026-07-12: scripts/sync-gate-scripts.sh copies the 4 canonical gate scripts into a consumer while preserving its AAHP_HANDOFF_FILES line; .github/workflows/gate-sync.yml opens a PR per consumer on canonical change; docs/gate-sync.md documents the model + GATE_SYNC_TOKEN requirement |
 | Add community-health files | 2026-06-29: Added SECURITY.md, CODE_OF_CONDUCT.md, CONTRIBUTING.md, and .github issue/PR templates (security, conduct, contributing, issue/PR templates) |
 | Add AAHP Swarm spec docs | 2026-06-29: Landed docs/AAHP-SWARM-v0.1.md and docs/AAHP-SWARM-v0.2.md (architecture concept v0.1 and v0.2) |
 | Add README status badges | 2026-06-21: Added AAHP Verify workflow badge + MIT License badge below the README H1 |
