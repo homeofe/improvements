@@ -123,7 +123,14 @@ jobs:
             fi
 
             # --- 1. Config-aware sync (preserves AAHP_HANDOFF_FILES) -------
-            bash "$CANON/scripts/sync-gate-scripts.sh" "$work"
+            # A non-zero exit (e.g. exit 2 = the consumer's AAHP_HANDOFF_FILES
+            # line is unparseable) skips THIS consumer with a warning; it must
+            # not abort the whole fleet, so it is guarded (set -e would kill the
+            # loop otherwise).
+            if ! bash "$CANON/scripts/sync-gate-scripts.sh" "$work"; then
+              echo "::warning::sync-gate-scripts.sh failed for $repo (e.g. unparseable AAHP_HANDOFF_FILES); skipping."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
 
             if git -C "$work" diff --quiet; then
               echo "$repo already in sync; nothing to do."
@@ -143,23 +150,37 @@ jobs:
               tmp="$(mktemp)"
               { printf '%s\n\n' "$note"; cat "$work/.ai/handoff/STATUS.md"; } > "$tmp"
               mv "$tmp" "$work/.ai/handoff/STATUS.md"
-              bash "$work/scripts/aahp-manifest.sh" "$work" \
-                --agent gate-sync-bot --phase fix --quiet || true
+              # If the manifest regen FAILS, mark this consumer skipped and do
+              # NOT open a half-refreshed PR (the old '|| true' swallowed this and
+              # would push a PR whose MANIFEST.json did not match STATUS.md,
+              # failing the consumer's own Layer-1 gate). Guarded so the failure
+              # skips this consumer instead of aborting the fleet.
+              if ! bash "$work/scripts/aahp-manifest.sh" "$work" \
+                  --agent gate-sync-bot --phase fix --quiet; then
+                echo "::warning::manifest regen failed for $repo; not opening a half-refreshed PR."
+                skipped=$((skipped + 1)); echo "::endgroup::"; continue
+              fi
             fi
 
             # --- 3. Commit on a dedicated branch --------------------------
             git -C "$work" config user.name  "gate-sync-bot"
             git -C "$work" config user.email "emre.kohler@outlook.com"
-            git -C "$work" checkout -B "$BRANCH" >/dev/null 2>&1
-            git -C "$work" add scripts/ .ai/handoff/STATUS.md .ai/handoff/MANIFEST.json 2>/dev/null || true
-            git -C "$work" add -A scripts/
+            if ! git -C "$work" checkout -B "$BRANCH" >/dev/null 2>&1; then
+              echo "::warning::could not create branch $BRANCH in $repo; skipping."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
+            git -C "$work" add -A scripts/ .ai/handoff/STATUS.md .ai/handoff/MANIFEST.json 2>/dev/null || true
             git -C "$work" commit -q -m "$PR_TITLE" || {
               echo "nothing staged for $repo (unexpected); skipping."
               skipped=$((skipped + 1)); echo "::endgroup::"; continue
             }
 
             # Force-update the dedicated bot branch (safe: it is owned by this job).
-            git -C "$work" push --force "$url" "HEAD:refs/heads/$BRANCH" >/dev/null 2>&1
+            # A failed push must skip this consumer, not abort the fleet.
+            if ! git -C "$work" push --force "$url" "HEAD:refs/heads/$BRANCH" >/dev/null 2>&1; then
+              echo "::warning::push failed for $repo (branch not updated); skipping."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
 
             # --- 4. Open a PR if one is not already open ------------------
             existing="$(gh pr list --repo "$repo" --head "$BRANCH" --state open --json number --jq 'length' 2>/dev/null || echo 0)"

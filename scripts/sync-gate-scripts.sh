@@ -37,6 +37,8 @@
 # Exit codes:
 #   0 = success (whether or not anything changed; see the printed summary)
 #   1 = usage error / consumer layout not recognised
+#   2 = consumer has scripts/_aahp-lib.sh but no parseable AAHP_HANDOFF_FILES
+#       line; refused (see below). Callers treat this as "skip this consumer".
 
 set -euo pipefail
 
@@ -92,6 +94,20 @@ if [ -f "$CONSUMER_SCRIPTS/$LIB_SCRIPT" ]; then
     # First matching line only; strip a trailing CR so a CRLF working tree does
     # not inject a lone carriage return into the (LF) canonical body.
     CONSUMER_CONFIG_LINE="$(grep -m1 "^$CONFIG_KEY" "$CONSUMER_SCRIPTS/$LIB_SCRIPT" 2>/dev/null | tr -d '\r' || true)"
+
+    # If the consumer already vendors _aahp-lib.sh but we cannot parse a proper
+    # AAHP_HANDOFF_FILES=( ... ) array line from it, REFUSE to sync this consumer
+    # rather than silently substituting the canonical superset. Injecting the
+    # superset here could make the consumer's regenerated MANIFEST.json reference
+    # handoff files it does not actually track. Skip and let a human fix the line.
+    # (A consumer with NO _aahp-lib.sh at all is a fresh install: the canonical
+    # default is correct there, so this guard only fires when the file exists.)
+    if ! printf '%s' "$CONSUMER_CONFIG_LINE" | grep -qE "^${CONFIG_KEY}\(.*\)[[:space:]]*$"; then
+        echo "Error: $CONSUMER_SCRIPTS/$LIB_SCRIPT has no parseable ${CONFIG_KEY}( ... ) line." >&2
+        echo "  Refusing to inject the canonical superset (it could reference handoff" >&2
+        echo "  files this repo does not track). Fix the ${CONFIG_KEY}line and re-run." >&2
+        exit 2
+    fi
 fi
 
 if [ -n "$CONSUMER_CONFIG_LINE" ]; then
