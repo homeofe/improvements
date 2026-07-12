@@ -4,6 +4,8 @@
 
 # AI Workflow Improvement Framework: Current State of the Nation
 
+> Note (2026-07-12, claude-opus-4-8): aahp-manifest.sh refinements after review - reverted next_task_id to the quoted-string form (improvements 060512b intent; bare integer broke JSON on empty), and fixed the task-preservation node -e blocks to pass the manifest path as argv instead of interpolating it (the MSYS bug class: an absolute MSYS $HANDOFF_DIR silently dropped tasks/next_task_id on Windows during sync-bot regen). Verified: project + tasks + next_task_id preserved across an absolute-path regen.
+
 > Last updated: 2026-06-29 by Claude Opus 4.8 (1M context)
 > Commit: (pending)
 >
