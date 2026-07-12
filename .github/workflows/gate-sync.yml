@@ -71,11 +71,13 @@ jobs:
           set -euo pipefail
 
           if [ -z "${GATE_SYNC_TOKEN:-}" ]; then
-            echo "::error::GATE_SYNC_TOKEN secret is not set. A cross-repo PAT with"
-            echo "::error::repo scope (or fine-grained Contents+PRs read/write on each"
-            echo "::error::consumer) is required. The default GITHUB_TOKEN cannot open"
-            echo "::error::PRs in other repositories."
-            exit 1
+            echo "::warning::GATE_SYNC_TOKEN secret is not set - skipping the gate sync."
+            echo "::warning::To activate fleet propagation, add an Actions secret named"
+            echo "::warning::GATE_SYNC_TOKEN (a cross-repo PAT with repo scope, or fine-grained"
+            echo "::warning::Contents+PRs read/write on each consumer), then re-run this workflow."
+            echo "::warning::The default GITHUB_TOKEN cannot open PRs in other repositories."
+            echo "gate sync skipped: no GATE_SYNC_TOKEN configured yet." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
           fi
 
           CANON="$PWD"
