@@ -1,3 +1,5 @@
+> Note (2026-07-12, claude-opus-4-8): Added the config-aware gate-script sync (scripts/sync-gate-scripts.sh + .github/workflows/gate-sync.yml + docs/gate-sync.md). The canonical scripts/ is now the source of truth for the four gate scripts; the sync preserves each consumer's AAHP_HANDOFF_FILES line and folds the aahp_auto_summary CR-strip robustness fix into _aahp-lib.sh.
+
 # AI Workflow Improvement Framework: Current State of the Nation
 
 > Last updated: 2026-06-29 by Claude Opus 4.8 (1M context)
@@ -79,6 +81,7 @@ convention.
 
 | Item | Resolution |
 |------|-----------|
+| Config-aware gate-script sync | 2026-07-12: scripts/sync-gate-scripts.sh copies the 4 canonical gate scripts into a consumer while preserving its AAHP_HANDOFF_FILES line; .github/workflows/gate-sync.yml opens a PR per consumer on canonical change; docs/gate-sync.md documents the model + GATE_SYNC_TOKEN requirement |
 | Add community-health files | 2026-06-29: Added SECURITY.md, CODE_OF_CONDUCT.md, CONTRIBUTING.md, and .github issue/PR templates (security, conduct, contributing, issue/PR templates) |
 | Add AAHP Swarm spec docs | 2026-06-29: Landed docs/AAHP-SWARM-v0.1.md and docs/AAHP-SWARM-v0.2.md (architecture concept v0.1 and v0.2) |
 | Add README status badges | 2026-06-21: Added AAHP Verify workflow badge + MIT License badge below the README H1 |
