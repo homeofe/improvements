@@ -6,7 +6,7 @@
 
 > Note (2026-07-12, claude-opus-4-8): aahp-manifest.sh refinements after review - reverted next_task_id to the quoted-string form (improvements 060512b intent; bare integer broke JSON on empty), and fixed the task-preservation node -e blocks to pass the manifest path as argv instead of interpolating it (the MSYS bug class: an absolute MSYS $HANDOFF_DIR silently dropped tasks/next_task_id on Windows during sync-bot regen). Verified: project + tasks + next_task_id preserved across an absolute-path regen.
 
-> Last updated: 2026-06-29 by Claude Opus 4.8 (1M context)
+> Last updated: 2026-07-13 by Claude Opus 4.8 (branch feat/grounded-reflection-layer)
 > Commit: (pending)
 >
 > **Rule:** This file is rewritten (not appended) at the end of every session.
@@ -26,7 +26,12 @@ staled handoff state. The seed task T-001 "Customize the framework for your
 project" is still ready for consumers. The gate is verify-only: it never
 regenerates MANIFEST.json (that stays a separate /handoff step). The repository
 license was migrated from MIT to the Apache License 2.0 to match the Elvatis
-convention.
+convention. On branch `feat/grounded-reflection-layer` (for issue #10), a Draft
+v0.1 Grounded Reflection Layer was added: it extends AAHP with an orthogonal
+provenance axis, a `/challenge` command, an on-demand `auditor` agent,
+`.ai/GROUNDING.md`, and reflection prompt templates, reconciled onto the existing
+verified/assumed/untested register and Trust Decay TTL rather than forking them.
+Proposed, not yet merged.
 <!-- /SECTION: summary -->
 
 ---
@@ -65,6 +70,7 @@ convention.
 | AAHP verify gate | 6 | (Verified) | scripts/verify-handoff.sh, _aahp-lib.sh, lint-handoff.sh, hooks/, install-hooks.sh |
 | Verify CI workflow | 1 | (Verified) | .github/workflows/aahp-verify.yml (inert until Actions re-enabled) |
 | Root CLAUDE.md | 1 | (Unknown) | Customize for your project |
+| Grounded Reflection Layer | 6 new + 8 edits | (Verified) | Files present, ASCII-clean, vocabulary-consistent (tool-checked). Draft v0.1, proposed (issue #10), not yet merged |
 
 > Add your own components here as you build them.
 <!-- /SECTION: components -->
@@ -85,6 +91,8 @@ convention.
 
 | Item | Resolution |
 |------|-----------|
+| Tighten Grounded Reflection (PR #11) | 2026-07-13: Merged origin/main; addressed the gemini-code-assist review - added a Provenance column to the TRUST.md register tables and made two GROUNDING.md "Min provenance" cells single-token (human_confirmed). Kept challenge.md allowed-tools (matches handoff.md precedent; command loads). On branch; PR #11 open, not yet merged to main |
+| Draft Grounded Reflection Layer | 2026-07-13: Added the Draft v0.1 layer on branch feat/grounded-reflection-layer (issue #10): docs/POSITIONPAPER, .ai/GROUNDING.md, grounded-reflection rule, /challenge, auditor agent, reflection prompts; reconciled onto the existing trust register (on branch; PR #11 open, not yet merged to main) |
 | Config-aware gate-script sync | 2026-07-12: scripts/sync-gate-scripts.sh copies the 4 canonical gate scripts into a consumer while preserving its AAHP_HANDOFF_FILES line; .github/workflows/gate-sync.yml opens a PR per consumer on canonical change; docs/gate-sync.md documents the model + GATE_SYNC_TOKEN requirement |
 | Add community-health files | 2026-06-29: Added SECURITY.md, CODE_OF_CONDUCT.md, CONTRIBUTING.md, and .github issue/PR templates (security, conduct, contributing, issue/PR templates) |
 | Add AAHP Swarm spec docs | 2026-06-29: Landed docs/AAHP-SWARM-v0.1.md and docs/AAHP-SWARM-v0.2.md (architecture concept v0.1 and v0.2) |

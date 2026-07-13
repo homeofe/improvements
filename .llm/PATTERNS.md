@@ -183,3 +183,8 @@ Don't ask the model to guess what it can verify.
 | No verification of AI output | Hallucinations propagate | Trust but verify pattern |
 | Massive context dumps | Dilutes model attention | Focused, relevant context |
 | Hardcoding to one provider | Vendor lock-in, no redundancy | Provider-agnostic patterns |
+| Treating cross-model agreement as proof | Consensus is not grounding | Require an external anchor (grounded reflection) |
+
+## Related: Grounded Reflection (Draft v0.1)
+
+These patterns make output better, not necessarily true. The proposed Grounded Reflection Layer adds the missing half: every important claim carries a *provenance* label and must be tied to an external anchor before it counts as `grounded`. Cross-model consensus (Pattern 1, Pattern 6) is provenance `cross_model_reviewed` and status `assumed` - useful, but not grounding. See `.claude/rules/grounded-reflection.md`, `.ai/GROUNDING.md`, and `.llm/PROMPTS-GROUNDED-REFLECTION.md`.

@@ -132,6 +132,19 @@ This is where agents read and write project state. See the [AAHP Protocol README
 | `WORKFLOW.md` | Agent pipeline definition | When workflow changes |
 | `TRUST.md` | Verification register + TTL | When trust state changes |
 
+### Grounded Reflection Layer (Draft v0.1)
+
+An optional governance layer that extends AAHP so claims are grounded, not just plausible. It adds a provenance axis, a `/challenge` command, an on-demand `auditor` agent, and a grounding register. It reuses the existing trust register (`verified`/`assumed`/`untested`), the Trust Decay TTL rule, and Phase 4 cross-model review rather than duplicating them.
+
+| File | Purpose |
+|------|---------|
+| `.claude/rules/grounded-reflection.md` | Provenance vs status axes, grounding requirement, self-verification limits |
+| `.ai/GROUNDING.md` | Task-type to required-anchor matrix and confidence bands |
+| `.claude/commands/challenge.md` | `/challenge` - adversarial grounding check (read-only, does not gate) |
+| `.claude/agents/auditor.md` | On-demand grounding/trust audit (optional Phase 4.5, pre-handoff) |
+| `.llm/PROMPTS-GROUNDED-REFLECTION.md` | Reusable reflection prompt templates |
+| `docs/POSITIONPAPER-GROUNDED-REFLECTION.md` | The position paper (Draft v0.1) |
+
 ---
 
 ## Customization Guide
@@ -236,10 +249,10 @@ For teams sharing a project:
 After integration, verify:
 
 - [ ] `CLAUDE.md` exists at project root
-- [ ] `.claude/rules/` has 4 rule files
-- [ ] `.claude/agents/` has 5 agent files
-- [ ] `.claude/commands/` has 5 command files
-- [ ] `.llm/` has 4 configuration files
+- [ ] `.claude/rules/` has 5 rule files
+- [ ] `.claude/agents/` has 6 agent files
+- [ ] `.claude/commands/` has 6 command files
+- [ ] `.llm/` has 5 configuration files
 - [ ] `.ai/handoff/MANIFEST.json` has valid JSON
 - [ ] `/status` command works (displays dashboard)
 - [ ] `/next` command works (shows next task)

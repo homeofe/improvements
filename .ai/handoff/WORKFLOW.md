@@ -15,6 +15,7 @@
 | Implementer | Claude Sonnet / Codex | Gemini 3.5 Flash | Build | Code, tests, refactoring, commits |
 | Reviewer | Different provider | - | Review | Second opinion, security, edge cases |
 | Handoff Manager | Haiku | Local LLM | State | MANIFEST.json, checksums, task lifecycle |
+| Auditor (optional) | Cross-provider | Opus | Audit | Grounding/trust-of-claims, provenance, circular review (Draft v0.1) |
 
 > **Key rule**: Reviewer must use a different model family than Implementer.
 > See `.llm/ROUTING.md` for the full decision matrix.
@@ -108,6 +109,24 @@ MCP tools (if available):
   - akido_review_diff: automated diff analysis
   - akido_review_selection: specific code review
 ```
+
+### Phase 4.5 (optional): Grounding Audit (Auditor Agent)
+
+```
+Model:   Prefer a different provider than the implementer AND reviewer (see
+         .llm/ROUTING.md). Default agents run on Claude; if a different provider is
+         unavailable, use a different model family and record the audit as
+         self-consistency, not cross-provider grounding.
+Runs:    On demand (like /review-cycle), or before handoff for high-impact tasks
+Scope:   Grounding and trust-of-claims only - are STATUS.md / TRUST.md assertions
+         actually grounded? provenance gaps? circular review? expired trust?
+         NOT code review (that is Phase 4).
+Emits:   A single verdict SHIP / NEEDS_CHANGES / BLOCK, before the terminal handoff.
+```
+
+> Proposed (Draft v0.1). Optional and pre-handoff; never a Phase 6, because Phase 5
+> Handoff is the final atomic step. See `.claude/agents/auditor.md` and
+> `.claude/rules/grounded-reflection.md`.
 
 ### Phase 5: Handoff (Handoff Manager Agent)
 

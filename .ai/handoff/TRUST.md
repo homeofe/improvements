@@ -15,31 +15,45 @@
 
 ---
 
+## Provenance (Draft v0.1, proposed)
+
+The Grounded Reflection Layer adds an orthogonal *provenance* field recording HOW a
+claim was checked, separate from the status above: `model_claim`, `self_reviewed`,
+`cross_model_reviewed`, `source_verified`, `tool_verified`, `test_verified`,
+`runtime_observed`, `human_confirmed`. `cross_model_reviewed` maps to status
+`assumed`, never `verified`; only `source_verified` / `tool_verified` /
+`test_verified` / `runtime_observed` / `human_confirmed` can support `verified`
+(== grounded). TTL and expiry stay governed by the Trust Decay rule in
+`.claude/rules/aahp-protocol.md`. See `.ai/GROUNDING.md` for the task-type anchor
+matrix and `.claude/rules/grounded-reflection.md` for the rules.
+
+---
+
 ## Framework Structure
 
-| Property | Status | Last Verified | Agent | TTL | Expires | Notes |
-|----------|--------|---------------|-------|-----|---------|-------|
-| All framework files exist | verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | Handoff files present |
-| CLAUDE.md customized | untested | - | - | 7d | - | Customize for your project |
+| Property | Status | Provenance | Last Verified | Agent | TTL | Expires | Notes |
+|----------|--------|------------|---------------|-------|-----|---------|-------|
+| All framework files exist | verified | tool_verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | Handoff files present |
+| CLAUDE.md customized | untested | - | - | - | 7d | - | Customize for your project |
 
 ---
 
 ## Content Quality
 
-| Property | Status | Last Verified | Agent | TTL | Expires | Notes |
-|----------|--------|---------------|-------|-----|---------|-------|
-| No em dashes in files | untested | - | - | 3d | - | Run grep to confirm |
-| No secrets in files | untested | - | - | 3d | - | Review against .aiignore patterns |
+| Property | Status | Provenance | Last Verified | Agent | TTL | Expires | Notes |
+|----------|--------|------------|---------------|-------|-----|---------|-------|
+| No em dashes in files | untested | - | - | - | 3d | - | Run grep to confirm |
+| No secrets in files | untested | - | - | - | 3d | - | Review against .aiignore patterns |
 
 ---
 
 ## AAHP Compliance
 
-| Property | Status | Last Verified | Agent | TTL | Expires | Notes |
-|----------|--------|---------------|-------|-----|---------|-------|
-| MANIFEST.json valid schema | verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | v3 format with checksums |
-| Checksums match files | untested | - | - | 1d | - | Regenerate via /handoff |
-| Protocol rules documented | verified | YYYY-MM-DD | your-agent | 30d | YYYY-MM-DD | In .claude/rules/ |
+| Property | Status | Provenance | Last Verified | Agent | TTL | Expires | Notes |
+|----------|--------|------------|---------------|-------|-----|---------|-------|
+| MANIFEST.json valid schema | verified | tool_verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | v3 format with checksums |
+| Checksums match files | untested | - | - | - | 1d | - | Regenerate via /handoff |
+| Protocol rules documented | verified | source_verified | YYYY-MM-DD | your-agent | 30d | YYYY-MM-DD | In .claude/rules/ |
 
 ---
 
