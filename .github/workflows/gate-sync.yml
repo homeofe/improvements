@@ -1,0 +1,234 @@
+# Gate Script Sync - propagate the canonical AAHP gate scripts to every consumer.
+#
+# WHY
+#   The four gate scripts (scripts/_aahp-lib.sh, lint-handoff.sh,
+#   aahp-manifest.sh, verify-handoff.sh) are vendored (copied) into every
+#   consumer repo. A fix that lands here never reaches those copies on its own,
+#   so the fleet DRIFTS. This workflow closes the loop: when any of the four
+#   canonical scripts changes on main, it syncs the change into each consumer
+#   (preserving that repo's per-repo AAHP_HANDOFF_FILES config) and OPENS a PR.
+#   It never merges - a human reviews and merges each consumer PR.
+#
+# TRIGGER
+#   - push to main that touches one of the four gate scripts
+#   - manual (workflow_dispatch)
+#
+# RUNNER
+#   homeofe/improvements is a PUBLIC repo, so this uses GitHub-hosted
+#   ubuntu-latest, matching .github/workflows/aahp-verify.yml. (If the repo were
+#   private, per the org CI-cost rule this would run on
+#   [self-hosted, linux, x64, elvatis-ci] instead.)
+#
+# TOKEN / SECRET (required)
+#   The default GITHUB_TOKEN is scoped to THIS repo only and cannot push
+#   branches or open pull requests in the OTHER (consumer) repos. This workflow
+#   therefore needs a cross-repo token provided as the secret GATE_SYNC_TOKEN:
+#     - Classic PAT with the `repo` scope, owned by a user (or a machine/bot
+#       account) that has write access to every consumer repo listed below in
+#       both the homeofe and elvatis orgs; OR
+#     - A fine-grained PAT granting Contents: read/write and Pull requests:
+#       read/write on each consumer repo.
+#   Store it as an Actions secret named GATE_SYNC_TOKEN in homeofe/improvements
+#   (Settings -> Secrets and variables -> Actions). Without it the job fails
+#   fast with a clear message.
+
+name: Gate Script Sync
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/_aahp-lib.sh'
+      - 'scripts/lint-handoff.sh'
+      - 'scripts/aahp-manifest.sh'
+      - 'scripts/verify-handoff.sh'
+  workflow_dispatch:
+
+# Only the checkout of THIS public repo needs the default token (read is enough);
+# all cross-repo writes go through GATE_SYNC_TOKEN.
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout canonical (homeofe/improvements)
+        uses: actions/checkout@v4
+
+      - name: Sync gate scripts into every consumer and open PRs
+        env:
+          # Cross-repo token. GH_TOKEN is what `gh pr create` reads; the same
+          # value is embedded in the clone/push URLs for git.
+          GATE_SYNC_TOKEN: ${{ secrets.GATE_SYNC_TOKEN }}
+          GH_TOKEN: ${{ secrets.GATE_SYNC_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${GATE_SYNC_TOKEN:-}" ]; then
+            echo "::warning::GATE_SYNC_TOKEN secret is not set - skipping the gate sync."
+            echo "::warning::To activate fleet propagation, add an Actions secret named"
+            echo "::warning::GATE_SYNC_TOKEN (a cross-repo PAT with repo scope, or fine-grained"
+            echo "::warning::Contents+PRs read/write on each consumer), then re-run this workflow."
+            echo "::warning::The default GITHUB_TOKEN cannot open PRs in other repositories."
+            echo "gate sync skipped: no GATE_SYNC_TOKEN configured yet." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          CANON="$PWD"
+
+          # --- Hardcoded consumer list ------------------------------------
+          # Every repo that vendors the four gate scripts under scripts/.
+          # A repo whose scripts/_aahp-lib.sh is missing (404 / moved) is
+          # skipped at runtime by the guard below, so the list stays declarative.
+          CONSUMERS=(
+            "homeofe/supply-chain-guard"
+            "homeofe/aahp-runner"
+            "homeofe/aahp-hub"
+            "elvatis/elvatis-security-platform"
+            "elvatis/atlas"
+            "elvatis/elvatis-defense"
+            "elvatis/elvatis-awareness"
+            "elvatis/elvatis-trust"
+            "elvatis/elvatis-client-portal"
+            "elvatis/elvatis-intelligence"
+            "elvatis/ai.elvatis.com"
+          )
+
+          BRANCH="chore/aahp-gate-sync"
+          PR_TITLE="chore(aahp): sync gate scripts from homeofe/improvements"
+          TODAY="$(date -u +%Y-%m-%d)"
+
+          opened=0
+          uptodate=0
+          skipped=0
+
+          for repo in "${CONSUMERS[@]}"; do
+            echo "::group::$repo"
+            work="$(mktemp -d)"
+            url="https://x-access-token:${GATE_SYNC_TOKEN}@github.com/${repo}.git"
+
+            if ! git clone --depth 1 "$url" "$work" >/dev/null 2>&1; then
+              echo "skip: cannot clone $repo (missing access or repo)."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
+
+            # Path guard: only sync repos that actually vendor the gate lib.
+            if [ ! -f "$work/scripts/_aahp-lib.sh" ]; then
+              echo "skip: $repo has no scripts/_aahp-lib.sh (path moved or not a consumer)."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
+
+            # --- 1. Config-aware sync (preserves AAHP_HANDOFF_FILES) -------
+            # A non-zero exit (e.g. exit 2 = the consumer's AAHP_HANDOFF_FILES
+            # line is unparseable) skips THIS consumer with a warning; it must
+            # not abort the whole fleet, so it is guarded (set -e would kill the
+            # loop otherwise).
+            if ! bash "$CANON/scripts/sync-gate-scripts.sh" "$work"; then
+              echo "::warning::sync-gate-scripts.sh failed for $repo (e.g. unparseable AAHP_HANDOFF_FILES); skipping."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
+
+            if git -C "$work" diff --quiet; then
+              echo "$repo already in sync; nothing to do."
+              uptodate=$((uptodate + 1)); echo "::endgroup::"; continue
+            fi
+
+            changed_scripts="$(git -C "$work" diff --name-only -- scripts/ | sed 's/^/- /')"
+
+            # --- 2. Handoff refresh so the PR passes the consumer's own gate.
+            # The consumers are AAHP-gated: a change to source (scripts/*) must
+            # ship with a STATUS.md update AND a regenerated MANIFEST.json, or
+            # their aahp-verify content-drift gate (Layer 2) fails. Refresh both
+            # when the consumer is gated. AAHP_HANDOFF_FILES was preserved above,
+            # so the regenerated manifest indexes exactly the repo's own files.
+            if [ -f "$work/scripts/verify-handoff.sh" ] && [ -f "$work/.ai/handoff/STATUS.md" ]; then
+              note="> Note (${TODAY}, gate-sync): synced AAHP gate scripts from homeofe/improvements; AAHP_HANDOFF_FILES preserved."
+              tmp="$(mktemp)"
+              { printf '%s\n\n' "$note"; cat "$work/.ai/handoff/STATUS.md"; } > "$tmp"
+              mv "$tmp" "$work/.ai/handoff/STATUS.md"
+              # If the manifest regen FAILS, mark this consumer skipped and do
+              # NOT open a half-refreshed PR (the old '|| true' swallowed this and
+              # would push a PR whose MANIFEST.json did not match STATUS.md,
+              # failing the consumer's own Layer-1 gate). Guarded so the failure
+              # skips this consumer instead of aborting the fleet.
+              if ! bash "$work/scripts/aahp-manifest.sh" "$work" \
+                  --agent gate-sync-bot --phase fix --quiet; then
+                echo "::warning::manifest regen failed for $repo; not opening a half-refreshed PR."
+                skipped=$((skipped + 1)); echo "::endgroup::"; continue
+              fi
+            fi
+
+            # --- 3. Commit on a dedicated branch --------------------------
+            git -C "$work" config user.name  "gate-sync-bot"
+            git -C "$work" config user.email "emre.kohler@outlook.com"
+            if ! git -C "$work" checkout -B "$BRANCH" >/dev/null 2>&1; then
+              echo "::warning::could not create branch $BRANCH in $repo; skipping."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
+            git -C "$work" add -A scripts/ .ai/handoff/STATUS.md .ai/handoff/MANIFEST.json 2>/dev/null || true
+            git -C "$work" commit -q -m "$PR_TITLE" || {
+              echo "nothing staged for $repo (unexpected); skipping."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            }
+
+            # Force-update the dedicated bot branch (safe: it is owned by this job).
+            # A failed push must skip this consumer, not abort the fleet.
+            if ! git -C "$work" push --force "$url" "HEAD:refs/heads/$BRANCH" >/dev/null 2>&1; then
+              echo "::warning::push failed for $repo (branch not updated); skipping."
+              skipped=$((skipped + 1)); echo "::endgroup::"; continue
+            fi
+
+            # --- 4. Open a PR if one is not already open ------------------
+            existing="$(gh pr list --repo "$repo" --head "$BRANCH" --state open --json number --jq 'length' 2>/dev/null || echo 0)"
+            if [ "$existing" != "0" ]; then
+              echo "PR already open for $repo ($BRANCH); the push updated it."
+              opened=$((opened + 1)); echo "::endgroup::"; continue
+            fi
+
+            body="$(cat <<EOF
+          ## Automated gate-script sync
+
+          The canonical AAHP gate scripts changed in
+          [homeofe/improvements](https://github.com/homeofe/improvements). This PR
+          vendors the update into this repo so the gate does not drift.
+
+          ### Scripts updated
+          $changed_scripts
+
+          ### Per-repo config preserved
+          This repo's \`AAHP_HANDOFF_FILES=(...)\` line in
+          \`scripts/_aahp-lib.sh\` was read from the existing file and substituted
+          back into the canonical copy, so the set of handoff files this repo
+          tracks is unchanged. The gate-deciding \`aahp_checksum\` function is
+          byte-identical to canonical.
+
+          ### Handoff state
+          \`STATUS.md\` carries a sync note and \`MANIFEST.json\` was regenerated
+          so this PR satisfies this repo's own AAHP content-drift gate.
+
+          ### How this was produced
+          Generated by \`.github/workflows/gate-sync.yml\` in homeofe/improvements
+          via \`scripts/sync-gate-scripts.sh\`, authenticated with the
+          \`GATE_SYNC_TOKEN\` secret (cross-repo PAT, repo scope). The workflow
+          opens this PR and never merges it - review and merge as usual.
+          EOF
+          )"
+
+            if gh pr create --repo "$repo" --head "$BRANCH" --base main \
+                 --title "$PR_TITLE" --body "$body" >/dev/null 2>&1; then
+              echo "opened PR for $repo."
+              opened=$((opened + 1))
+            else
+              echo "::warning::could not open PR for $repo (branch pushed; open manually)."
+              skipped=$((skipped + 1))
+            fi
+            echo "::endgroup::"
+          done
+
+          echo "Summary: opened/updated=$opened, already-in-sync=$uptodate, skipped=$skipped"
