@@ -145,6 +145,16 @@ commit-pointer freshness, TRUST-TTL expiry) are owned by
 recorded claims are actually grounded; it does not restate or replace those
 mechanical checks.
 
+### Provenance invalidation (downgrade)
+
+Provenance can move down, not only up. If the external anchor that supported a
+`verified` (grounded) claim is removed, retracted, deprecated, or found to be
+incorrect, the claim reverts: to `assumed` if an independent cross-provider review
+still stands (provenance `cross_model_reviewed`), otherwise to `untested`
+(provenance `model_claim`). Update the affected row in `.ai/handoff/TRUST.md` when
+this happens. This is distinct from TTL expiry (handled by the Trust Decay rule):
+expiry is about age; invalidation is about the anchor no longer being valid.
+
 ## 7. Confidence Must Include a Source
 
 Do not record a confidence number without the reason for it.
@@ -249,3 +259,4 @@ reviewed to the level required in section 5. Prefer calibrated language:
 | Cross-provider review (Phase 4) | `.ai/handoff/WORKFLOW.md`, `.claude/agents/reviewer.md`, `/review-cycle` |
 | Deterministic handoff gate | `scripts/verify-handoff.sh` |
 | Task-type anchor matrix, confidence bands | `.ai/GROUNDING.md` |
+| Anti-patterns to detect during an audit | `.claude/agents/auditor.md` (Anti-Patterns To Detect) |

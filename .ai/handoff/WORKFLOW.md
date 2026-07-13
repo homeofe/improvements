@@ -113,8 +113,11 @@ MCP tools (if available):
 ### Phase 4.5 (optional): Grounding Audit (Auditor Agent)
 
 ```
-Model:   Different provider than the implementer AND reviewer (see .llm/ROUTING.md)
-Runs:    ON DEMAND (like /review-cycle), or before handoff for high-impact tasks
+Model:   Prefer a different provider than the implementer AND reviewer (see
+         .llm/ROUTING.md). Default agents run on Claude; if a different provider is
+         unavailable, use a different model family and record the audit as
+         self-consistency, not cross-provider grounding.
+Runs:    On demand (like /review-cycle), or before handoff for high-impact tasks
 Scope:   Grounding and trust-of-claims only - are STATUS.md / TRUST.md assertions
          actually grounded? provenance gaps? circular review? expired trust?
          NOT code review (that is Phase 4).

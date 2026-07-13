@@ -137,6 +137,10 @@ Source" principle in `.claude/rules/grounded-reflection.md`).
 A confidence above 0.75 that lacks a matching anchor is a provenance gap: lower
 the number or add the anchor.
 
+A passing test suite does not qualify for the `0.99+` band: it shows the absence of
+caught failures, not proof of correctness. Reserve `0.99+` for formal proofs or
+deterministic calculations only.
+
 ---
 
 ## 5. Required TRUST Fields
@@ -178,7 +182,7 @@ evidence: "review-cycle notes"
 ttl: 7d
 owner: handoff-manager
 remaining_uncertainty: "no test or gate run against the claim"
-next_verification_step: "run scripts/verify-handoff.sh and record tool_verified"
+next_verification_step: "next agent confirms no unresolved blockers in NEXT_ACTIONS.md; the verify-handoff.sh gate grounds manifest/TTL integrity, not this completeness claim"
 ```
 
 ---

@@ -177,7 +177,8 @@ or `human_confirmed` can support status `verified`.
 
 Periodic, non-deterministic audits of grounding claims reduce the incentive to game a
 fixed checklist. The auditor is invoked on demand (see Section 7) and may sample
-high-impact claims at random.
+high-impact claims at random. How that random sampling is scheduled and invoked is an
+open design question for v1.0; this draft states only the principle.
 
 ### Principle 6: Confidence Requires a Source
 
@@ -292,7 +293,7 @@ only the challenge and audit steps are new.
 2. Tests, build, and type-checker run (external anchors).
 3. A reviewer from a different model or provider reviews (Phase 4; verdict `SHIP`,
    `NEEDS_CHANGES`, or `BLOCK`).
-4. `/challenge` runs against assumptions and edge cases.
+4. `/challenge` runs against assumptions and edge cases (on demand; it may also be run by the implementer before review, and is not mandatory post-review).
 5. For high-impact work, the auditor optionally runs as Phase 4.5 and checks
    provenance and grounding.
 6. `.ai/handoff/TRUST.md` is updated with status and provenance per claim.

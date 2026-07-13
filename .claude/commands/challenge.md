@@ -127,6 +127,9 @@ Recommended handoff action (non-binding):
 AAHP state updates needed (recommendation only):
 - STATUS.md: [status tag change, e.g. (Verified) -> (Assumed)]
 - TRUST.md: [provenance/confidence/next_verification_step to record]
+
+Advisory verdict (machine-readable, non-binding):
+CHALLENGE_ADVISORY: SHIP | NEEDS_CHANGES | BLOCK
 ```
 
 ## Integration with AAHP
@@ -139,6 +142,10 @@ AAHP state updates needed (recommendation only):
 - After running, the recommended updates should be folded into the next handoff
   under the "Grounded Reflection" section described in
   `.claude/rules/grounded-reflection.md`. `/challenge` writes nothing itself.
+- The output of `/challenge` is itself provenance `model_claim` (a model produced it
+  and nothing external checked it). Running `/challenge` on a previous challenge
+  report does not add grounding and must not be used to self-certify a prior
+  challenge result.
 
 ## Exit Criteria
 

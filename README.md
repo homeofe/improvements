@@ -153,7 +153,7 @@ See [`docs/POSITIONPAPER-GROUNDED-REFLECTION.md`](docs/POSITIONPAPER-GROUNDED-RE
 | implementer | Phase 3 | Sonnet | Code, tests, documentation |
 | reviewer | Phase 4 | Opus | Cross-model code review, security analysis |
 | handoff-manager | Phase 5 | Haiku | AAHP state management, checksums |
-| auditor | On-demand / Phase 4.5 | Cross-provider | Grounding and trust-of-claims audit (Draft v0.1) |
+| auditor | On-demand / Phase 4.5 | Opus (route to a different provider than the reviewer) | Grounding and trust-of-claims audit (Draft v0.1) |
 
 ## LLM-Agnostic Layer
 

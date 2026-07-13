@@ -93,8 +93,9 @@ it.
 
 ## Process
 
-1. Read `MANIFEST.json` `quick_context` for orientation, then read `STATUS.md` and
-   the `TRUST.md` register.
+1. Read `MANIFEST.json` `quick_context` for orientation, then read `STATUS.md`,
+   `NEXT_ACTIONS.md`, and the `TRUST.md` register. (`NEXT_ACTIONS.md` is required to
+   detect the "handoff says done while NEXT_ACTIONS still lists blockers" anti-pattern.)
 2. Read the layer's own policy where present: `.ai/GROUNDING.md` and
    `.claude/rules/grounded-reflection.md` (proposed siblings in this layer), plus
    `.claude/rules/aahp-protocol.md` and `.claude/rules/safety.md` for the trust and
@@ -176,6 +177,14 @@ different high-reasoning provider for the audit so the grounding pass is genuine
 independent rather than two identical `opus` passes. Running the auditor on the same
 `opus` as the reviewer is a fallback only: it yields self-consistency, not
 cross-provider grounding, and should be recorded as such in the findings.
+
+Same-provider-chain guard: if a single provider was used earlier in the chain (for
+example an implementer that fell back to the provider the auditor would use), routing
+the auditor there reproduces the circular-review anti-pattern this layer exists to
+prevent. Route the auditor to a third provider instead; if none is available, record
+the audit's provenance as `self_reviewed` (self-consistency), not
+`cross_model_reviewed`. In a Claude-only setup the `opus` default matches the
+reviewer, so the audit is self-consistency, not cross-provider grounding.
 
 ## Rules
 
