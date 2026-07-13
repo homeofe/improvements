@@ -31,29 +31,29 @@ matrix and `.claude/rules/grounded-reflection.md` for the rules.
 
 ## Framework Structure
 
-| Property | Status | Last Verified | Agent | TTL | Expires | Notes |
-|----------|--------|---------------|-------|-----|---------|-------|
-| All framework files exist | verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | Handoff files present |
-| CLAUDE.md customized | untested | - | - | 7d | - | Customize for your project |
+| Property | Status | Provenance | Last Verified | Agent | TTL | Expires | Notes |
+|----------|--------|------------|---------------|-------|-----|---------|-------|
+| All framework files exist | verified | tool_verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | Handoff files present |
+| CLAUDE.md customized | untested | - | - | - | 7d | - | Customize for your project |
 
 ---
 
 ## Content Quality
 
-| Property | Status | Last Verified | Agent | TTL | Expires | Notes |
-|----------|--------|---------------|-------|-----|---------|-------|
-| No em dashes in files | untested | - | - | 3d | - | Run grep to confirm |
-| No secrets in files | untested | - | - | 3d | - | Review against .aiignore patterns |
+| Property | Status | Provenance | Last Verified | Agent | TTL | Expires | Notes |
+|----------|--------|------------|---------------|-------|-----|---------|-------|
+| No em dashes in files | untested | - | - | - | 3d | - | Run grep to confirm |
+| No secrets in files | untested | - | - | - | 3d | - | Review against .aiignore patterns |
 
 ---
 
 ## AAHP Compliance
 
-| Property | Status | Last Verified | Agent | TTL | Expires | Notes |
-|----------|--------|---------------|-------|-----|---------|-------|
-| MANIFEST.json valid schema | verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | v3 format with checksums |
-| Checksums match files | untested | - | - | 1d | - | Regenerate via /handoff |
-| Protocol rules documented | verified | YYYY-MM-DD | your-agent | 30d | YYYY-MM-DD | In .claude/rules/ |
+| Property | Status | Provenance | Last Verified | Agent | TTL | Expires | Notes |
+|----------|--------|------------|---------------|-------|-----|---------|-------|
+| MANIFEST.json valid schema | verified | tool_verified | YYYY-MM-DD | your-agent | 7d | YYYY-MM-DD | v3 format with checksums |
+| Checksums match files | untested | - | - | - | 1d | - | Regenerate via /handoff |
+| Protocol rules documented | verified | source_verified | YYYY-MM-DD | your-agent | 30d | YYYY-MM-DD | In .claude/rules/ |
 
 ---
 

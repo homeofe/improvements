@@ -101,11 +101,11 @@ Axis B that can carry that task to `verified`; anything weaker keeps it at
 | Code implementation | Passing tests + build + type-check/lint on the change | test_verified | Only self-reviewed, or no tests were actually run |
 | Documentation | Doc checked against the source or config it describes | source_verified | Describes code that was never read; model_claim only |
 | Architecture decisions | ADR recording alternatives considered, plus human sign-off | human_confirmed | No alternatives weighed; single-model reasoning only |
-| Security-sensitive changes | Security scanner or static-analysis output, cross-provider review, human sign-off | tool_verified + human_confirmed | Same model generated and approved it; model reasoning only |
+| Security-sensitive changes | Security scanner or static-analysis output, cross-provider review, human sign-off | human_confirmed | Same model generated and approved it; model reasoning only |
 | Compliance or legal claims | Verified external source and human domain-owner confirmation | human_confirmed | No human_confirmed; source not cited or not current |
 | External factual research | Two or more independent verified external sources | source_verified | No current source; model_claim only |
 | Strategic/business analysis | Human domain-owner confirmation; assumptions labelled | human_confirmed | Rests on model reasoning alone (holds at assumed until a human confirms) |
-| Agent-governance changes | `scripts/verify-handoff.sh` passes, cross-model review, human sign-off | tool_verified + human_confirmed | Gate not run; change self-approved by its author |
+| Agent-governance changes | `scripts/verify-handoff.sh` passes, cross-model review, human sign-off | human_confirmed | Gate not run; change self-approved by its author |
 
 Notes:
 

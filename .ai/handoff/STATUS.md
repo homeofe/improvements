@@ -91,6 +91,7 @@ Proposed, not yet merged.
 
 | Item | Resolution |
 |------|-----------|
+| Tighten Grounded Reflection (PR #11) | 2026-07-13: Merged origin/main; addressed the gemini-code-assist review - added a Provenance column to the TRUST.md register tables and made two GROUNDING.md "Min provenance" cells single-token (human_confirmed). Kept challenge.md allowed-tools (matches handoff.md precedent; command loads) |
 | Draft Grounded Reflection Layer | 2026-07-13: Added the Draft v0.1 layer on branch feat/grounded-reflection-layer (issue #10): docs/POSITIONPAPER, .ai/GROUNDING.md, grounded-reflection rule, /challenge, auditor agent, reflection prompts; reconciled onto the existing trust register |
 | Config-aware gate-script sync | 2026-07-12: scripts/sync-gate-scripts.sh copies the 4 canonical gate scripts into a consumer while preserving its AAHP_HANDOFF_FILES line; .github/workflows/gate-sync.yml opens a PR per consumer on canonical change; docs/gate-sync.md documents the model + GATE_SYNC_TOKEN requirement |
 | Add community-health files | 2026-06-29: Added SECURITY.md, CODE_OF_CONDUCT.md, CONTRIBUTING.md, and .github issue/PR templates (security, conduct, contributing, issue/PR templates) |
