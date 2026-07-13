@@ -15,6 +15,20 @@
 
 ---
 
+## Provenance (Draft v0.1, proposed)
+
+The Grounded Reflection Layer adds an orthogonal *provenance* field recording HOW a
+claim was checked, separate from the status above: `model_claim`, `self_reviewed`,
+`cross_model_reviewed`, `source_verified`, `tool_verified`, `test_verified`,
+`runtime_observed`, `human_confirmed`. `cross_model_reviewed` maps to status
+`assumed`, never `verified`; only `source_verified` / `tool_verified` /
+`test_verified` / `runtime_observed` / `human_confirmed` can support `verified`
+(== grounded). TTL and expiry stay governed by the Trust Decay rule in
+`.claude/rules/aahp-protocol.md`. See `.ai/GROUNDING.md` for the task-type anchor
+matrix and `.claude/rules/grounded-reflection.md` for the rules.
+
+---
+
 ## Framework Structure
 
 | Property | Status | Last Verified | Agent | TTL | Expires | Notes |

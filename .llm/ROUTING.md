@@ -40,6 +40,7 @@ Default -> Claude Sonnet 4.6 (best balance of speed/quality/cost)
 | Architecture | Any | Opus 4.8 / GPT-5.4 | Grok reasoning | $0.50-2.00 |
 | Security review | Any | Opus 4.8 | GPT-5.4 | $0.50-2.00 |
 | Code review | Any | Different provider | - | $0.20-1.00 |
+| Grounding audit | Any | Different provider than implementer and reviewer | - | $0.20-1.00 |
 | Bug investigation | Low | Sonnet 4.6 | Haiku 4.5 | $0.10-0.30 |
 | Bug investigation | High | Opus 4.8 | GPT-5.4 | $0.50-2.00 |
 | Data extraction | Any | Haiku 4.5 / local LLM | GPT-5.4 Mini | $0.01-0.10 |
@@ -91,6 +92,8 @@ For high-stakes work, use models from different providers:
 | Verify | - | - | Gemini 3.1 Pro |
 
 **Rule**: The reviewer must be from a different model family than the implementer. This catches blind spots specific to each model's training.
+
+**Grounding audit (Draft v0.1)**: the optional `auditor` agent (`.claude/agents/auditor.md`) should run on a different provider than BOTH the implementer and the reviewer, so the grounding pass is genuinely independent rather than two identical passes.
 
 ## MCP Tool Mapping
 

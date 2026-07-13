@@ -42,6 +42,7 @@
 - `/status` - Display AAHP project health dashboard
 - `/next` - Pick and start the next ready AAHP task
 - `/review-cycle` - Run multi-model review on recent changes
+- `/challenge <target>` - Adversarial grounding check: provenance gaps and counterarguments (Draft v0.1)
 
 ## Multi-Model Strategy
 
@@ -82,6 +83,10 @@ bash scripts/install-hooks.sh .     # installs pre-commit + pre-push hooks
   CI. Never use `git commit/push --no-verify`.
 - The CI workflow `.github/workflows/aahp-verify.yml` is committed but inert
   until GitHub Actions is re-enabled org-wide.
+
+## Grounded Reflection Layer (Draft v0.1)
+
+An optional governance layer that extends AAHP so claims are grounded, not just plausible. A claim carries a status (`verified`/`assumed`/`untested`, the existing register) AND a separate provenance (`model_claim` ... `human_confirmed`); `cross_model_reviewed` maps to `assumed`, never `verified`. A claim is `grounded` only with an external anchor (tests, type-check, schema, verified source, runtime, or human confirmation). Use `/challenge` for an adversarial grounding pass and the `auditor` agent for an on-demand grounding audit (optional Phase 4.5, pre-handoff). See `.claude/rules/grounded-reflection.md`, `.ai/GROUNDING.md`, and `docs/POSITIONPAPER-GROUNDED-REFLECTION.md`.
 
 ## Style Rules
 
