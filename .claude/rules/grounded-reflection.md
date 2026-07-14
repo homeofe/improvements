@@ -1,6 +1,6 @@
 # Grounded Reflection Rules
 
-> Status: Draft v0.1 (proposed). This rule is defined, not yet running.
+> Status: v1.0 (active, adopted 2026-07-14). This rule is live.
 > Purpose: define how AAHP-based workflows track provenance, require external
 > grounding, and constrain self-verification so that plausibility is not mistaken
 > for truth.
@@ -183,7 +183,7 @@ Before handoff, and whenever an output is high-impact, answer:
 
 ## 9. Challenge Trigger
 
-Run an adversarial challenge (the proposed `/challenge` command) when the output:
+Run an adversarial challenge (the `/challenge` command) when the output:
 
 - is important or stated with high confidence
 - affects architecture or a design decision

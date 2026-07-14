@@ -93,7 +93,7 @@ For high-stakes work, use models from different providers:
 
 **Rule**: The reviewer must be from a different model family than the implementer. This catches blind spots specific to each model's training.
 
-**Grounding audit (Draft v0.1)**: the optional `auditor` agent (`.claude/agents/auditor.md`) should run on a different provider than BOTH the implementer and the reviewer, so the grounding pass is genuinely independent rather than two identical passes.
+**Grounding audit (v1.0, active)**: the optional `auditor` agent (`.claude/agents/auditor.md`) should run on a different provider than BOTH the implementer and the reviewer, so the grounding pass is genuinely independent rather than two identical passes.
 
 ## MCP Tool Mapping
 

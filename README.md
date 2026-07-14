@@ -17,7 +17,7 @@ A ready-to-copy framework that you drop into any project to get:
 - **Custom commands** - `/handoff`, `/status`, `/next`, `/route`, `/review-cycle`, `/challenge`
 - **Cross-model review** - Implement with one provider, review with another
 - **Cost-aware escalation** - Start cheap, escalate only when quality demands it
-- **Grounded reflection** - Track provenance, require external anchors, and audit whether claims are actually grounded (Draft v0.1)
+- **Grounded reflection** - Track provenance, require external anchors, and audit whether claims are actually grounded (v1.0)
 
 ## Who is This For?
 
@@ -39,29 +39,29 @@ your-project/
       multi-model.md            # Model routing decision tree
       safety.md                 # Three Laws + do-no-damage enforcement
       handoff.md                # How to read/write AAHP state files
-      grounded-reflection.md    # Provenance + grounding rules (Draft v0.1)
+      grounded-reflection.md    # Provenance + grounding rules (v1.0)
     agents/
       researcher.md             # Phase 1: Research (Perplexity/Gemini)
       architect.md              # Phase 2: Architecture (Opus/GPT-5.4)
       implementer.md            # Phase 3: Implementation (Sonnet/Codex)
       reviewer.md               # Phase 4: Review (cross-model)
       handoff-manager.md        # Phase 5: State management (Haiku)
-      auditor.md                # Grounding/trust audit (on-demand, Draft v0.1)
+      auditor.md                # Grounding/trust audit (on-demand, v1.0)
     commands/
       handoff.md                # /handoff - End-of-session AAHP cycle
       route.md                  # /route - Model recommendation for a task
       status.md                 # /status - Project health dashboard
       next.md                   # /next - Pick next ready task
       review-cycle.md           # /review-cycle - Multi-model review
-      challenge.md              # /challenge - Adversarial grounding check (Draft v0.1)
+      challenge.md              # /challenge - Adversarial grounding check (v1.0)
   .llm/
     ROUTING.md                  # Task-to-model decision matrix
     PROVIDERS.md                # Provider capabilities comparison
     PATTERNS.md                 # 8 cross-LLM workflow patterns
     PROMPTS.md                  # 8 reusable prompt templates
-    PROMPTS-GROUNDED-REFLECTION.md  # Reflection prompt templates (Draft v0.1)
+    PROMPTS-GROUNDED-REFLECTION.md  # Reflection prompt templates (v1.0)
   .ai/
-    GROUNDING.md                # Grounding register: task-type anchor matrix (Draft v0.1)
+    GROUNDING.md                # Grounding register: task-type anchor matrix (v1.0)
   .ai/handoff/
     MANIFEST.json               # AAHP v3 index + task graph
     STATUS.md                   # Current project state
@@ -122,7 +122,7 @@ Local LLM (free) -> Haiku ($0.05) -> Sonnet ($0.30) -> Opus ($1.50) -> Multi-mod
 
 Start with the cheapest model that can handle the task. Escalate only when the output quality is insufficient.
 
-### Grounded Reflection Layer (Draft v0.1)
+### Grounded Reflection Layer (v1.0)
 
 Cross-model agreement is not the same as truth. The Grounded Reflection Layer extends AAHP so a claim's confidence is earned, not assumed:
 
@@ -142,7 +142,7 @@ See [`docs/POSITIONPAPER-GROUNDED-REFLECTION.md`](docs/POSITIONPAPER-GROUNDED-RE
 | `/next` | Pick and start the next ready task from the task graph |
 | `/route <task>` | Get model routing recommendation for a task |
 | `/review-cycle` | Run multi-model review on recent changes |
-| `/challenge` | Adversarial grounding check: provenance gaps and counterarguments (Draft v0.1) |
+| `/challenge` | Adversarial grounding check: provenance gaps and counterarguments (v1.0) |
 
 ## Custom Agents
 
@@ -153,7 +153,7 @@ See [`docs/POSITIONPAPER-GROUNDED-REFLECTION.md`](docs/POSITIONPAPER-GROUNDED-RE
 | implementer | Phase 3 | Sonnet | Code, tests, documentation |
 | reviewer | Phase 4 | Opus | Cross-model code review, security analysis |
 | handoff-manager | Phase 5 | Haiku | AAHP state management, checksums |
-| auditor | On-demand / Phase 4.5 | Opus (route to a different provider than the reviewer) | Grounding and trust-of-claims audit (Draft v0.1) |
+| auditor | On-demand / Phase 4.5 | Opus (route to a different provider than the reviewer) | Grounding and trust-of-claims audit (v1.0) |
 
 ## LLM-Agnostic Layer
 
@@ -163,7 +163,7 @@ The `.llm/` directory contains provider-neutral documentation that works with an
 - **PROVIDERS.md** - Capabilities comparison (context windows, tools, cost, best uses)
 - **PATTERNS.md** - 8 workflow patterns that work across all LLMs
 - **PROMPTS.md** - 8 reusable prompt templates you can copy into any tool
-- **PROMPTS-GROUNDED-REFLECTION.md** - Reflection templates: provenance classification, grounding gaps, adversarial challenge (Draft v0.1)
+- **PROMPTS-GROUNDED-REFLECTION.md** - Reflection templates: provenance classification, grounding gaps, adversarial challenge (v1.0)
 
 These files are useful even if you don't use Claude Code.
 

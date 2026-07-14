@@ -151,7 +151,7 @@ exempt, or unknown, and exits non-zero on drift or a missing required hook. The
 estate contract (which repositories require which hooks, plus any declared
 exceptions) is published in [docs/hook-coverage.md](docs/hook-coverage.md).
 
-### Grounded Reflection Layer (Draft v0.1)
+### Grounded Reflection Layer (v1.0)
 
 An optional governance layer that extends AAHP so claims are grounded, not just plausible. It adds a provenance axis, a `/challenge` command, an on-demand `auditor` agent, and a grounding register. It reuses the existing trust register (`verified`/`assumed`/`untested`), the Trust Decay TTL rule, and Phase 4 cross-model review rather than duplicating them.
 
@@ -162,7 +162,7 @@ An optional governance layer that extends AAHP so claims are grounded, not just 
 | `.claude/commands/challenge.md` | `/challenge` - adversarial grounding check (read-only, does not gate) |
 | `.claude/agents/auditor.md` | On-demand grounding/trust audit (optional Phase 4.5, pre-handoff) |
 | `.llm/PROMPTS-GROUNDED-REFLECTION.md` | Reusable reflection prompt templates |
-| `docs/POSITIONPAPER-GROUNDED-REFLECTION.md` | The position paper (Draft v0.1) |
+| `docs/POSITIONPAPER-GROUNDED-REFLECTION.md` | The position paper (v1.0) |
 
 ---
 

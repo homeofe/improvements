@@ -15,7 +15,7 @@
 
 ---
 
-## Provenance (Draft v0.1, proposed)
+## Provenance (v1.0, active)
 
 The Grounded Reflection Layer adds an orthogonal *provenance* field recording HOW a
 claim was checked, separate from the status above: `model_claim`, `self_reviewed`,

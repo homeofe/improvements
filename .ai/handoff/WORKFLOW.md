@@ -15,7 +15,7 @@
 | Implementer | Claude Sonnet / Codex | Gemini 3.5 Flash | Build | Code, tests, refactoring, commits |
 | Reviewer | Different provider | - | Review | Second opinion, security, edge cases |
 | Handoff Manager | Haiku | Local LLM | State | MANIFEST.json, checksums, task lifecycle |
-| Auditor (optional) | Cross-provider | Opus | Audit | Grounding/trust-of-claims, provenance, circular review (Draft v0.1) |
+| Auditor (optional) | Cross-provider | Opus | Audit | Grounding/trust-of-claims, provenance, circular review (v1.0, active) |
 
 > **Key rule**: Reviewer must use a different model family than Implementer.
 > See `.llm/ROUTING.md` for the full decision matrix.
@@ -124,7 +124,7 @@ Scope:   Grounding and trust-of-claims only - are STATUS.md / TRUST.md assertion
 Emits:   A single verdict SHIP / NEEDS_CHANGES / BLOCK, before the terminal handoff.
 ```
 
-> Proposed (Draft v0.1). Optional and pre-handoff; never a Phase 6, because Phase 5
+> Active (v1.0). Optional and pre-handoff; never a Phase 6, because Phase 5
 > Handoff is the final atomic step. See `.claude/agents/auditor.md` and
 > `.claude/rules/grounded-reflection.md`.
 

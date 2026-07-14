@@ -1,7 +1,7 @@
 # Grounded Reflection Prompt Templates
 
-> Status: Draft v0.1 (proposed). Provider-agnostic reflection prompts for the
-> proposed Grounded Reflection Layer. Copy and adapt for any LLM. These templates
+> Status: v1.0 (active, adopted 2026-07-14). Provider-agnostic reflection prompts
+> for the Grounded Reflection Layer. Copy and adapt for any LLM. These templates
 > extend, and never replace, existing AAHP machinery - route cross-model review
 > through Phase 4 (`.claude/agents/reviewer.md` + `.claude/commands/review-cycle.md`),
 > read trust state from `.ai/handoff/TRUST.md`, let Trust Decay / TTL stay owned by
@@ -63,7 +63,7 @@ Output to review:
 
 ## 2. Strongest Counterargument
 
-Reverses the burden of proof. Pairs with the proposed `/challenge` command.
+Reverses the burden of proof. Pairs with the `/challenge` command.
 
 ```
 Do not defend the output below. Argue against it.
@@ -171,7 +171,7 @@ Constraints:
 - A confidence number without a confidence_source is invalid - do not emit one.
 - High confidence with provenance model_claim is a red flag; lower it or ground it.
 - For the numeric bands (which confidence range fits which evidence), follow the
-  proposed .ai/GROUNDING.md calibration table rather than guessing here.
+  .ai/GROUNDING.md calibration table rather than guessing here.
 
 Claim:
 [PASTE CLAIM + ANY STATED CONFIDENCE]
@@ -288,14 +288,14 @@ Session work to summarize:
 Frames a grounding-and-trust audit and asks for a reviewer.md-style verdict.
 
 ```
-Act as the grounding auditor for this handoff (see the proposed
+Act as the grounding auditor for this handoff (see
 .claude/agents/auditor.md). Scope is grounding and trust-of-claims ONLY: are the
 STATUS.md / TRUST.md assertions actually grounded, are there provenance gaps, is any
 review circular, is any relied-on trust expired? This is NOT code review - that is
 Phase 4 (reviewer.md + /review-cycle) and the mechanical gate scripts/verify-handoff.sh.
 
 Read (read-only): .ai/handoff/MANIFEST.json, STATUS.md, NEXT_ACTIONS.md, LOG.md,
-DASHBOARD.md, TRUST.md, plus the proposed .ai/GROUNDING.md and
+DASHBOARD.md, TRUST.md, plus .ai/GROUNDING.md and
 .claude/rules/grounded-reflection.md.
 
 Return:
@@ -346,7 +346,7 @@ Decision to journal:
 
 ## Usage Notes
 
-- These prompts are proposed (Draft v0.1) and provider-agnostic. Adapt the
+- These prompts are active (v1.0) and provider-agnostic. Adapt the
   [BRACKETED SECTIONS] for your specific use case.
 - Keep the vocabulary fixed: status = verified / assumed / untested; the 8 provenance
   tokens listed above; verdicts = SHIP / NEEDS_CHANGES / BLOCK. Do not add synonyms.
@@ -357,5 +357,5 @@ Decision to journal:
   "Trust Decay" section of `.claude/rules/aahp-protocol.md`; the mechanical gate is
   `scripts/verify-handoff.sh`. These prompts reason on top of that machinery, they do
   not restate or replace it.
-- For Claude Code these can back custom commands (for example the proposed
-  `.claude/commands/challenge.md`); for other tools, copy-paste and adapt.
+- For Claude Code these can back custom commands (for example the
+  `.claude/commands/challenge.md` command); for other tools, copy-paste and adapt.
