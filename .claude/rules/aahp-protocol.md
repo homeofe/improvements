@@ -62,7 +62,7 @@ Before trusting any handoff file:
 - Expired (Verified) automatically downgrades to (Assumed)
 - Any agent can re-verify and reset TTL
 
-> This Trust Decay rule is the single authority for TTL and expiry. The proposed
+> This Trust Decay rule is the single authority for TTL and expiry. The
 > Grounded Reflection Layer (`.claude/rules/grounded-reflection.md`, `.ai/GROUNDING.md`)
 > references it for TTL and adds an orthogonal provenance axis; it does not define
 > its own TTL tables.

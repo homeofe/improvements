@@ -1,9 +1,9 @@
 # AI Workflow Improvement Framework: Grounding Register
 
 > Defines which task types require which external anchors before a claim may be
-> recorded as grounded (status `verified`). Proposed reference doc for the
+> recorded as grounded (status `verified`). Reference doc for the
 > Grounded Reflection Layer; complements `.ai/handoff/TRUST.md`.
-> Draft v0.1 - proposed, not yet wired into the running workflow.
+> v1.0 (active, adopted 2026-07-14).
 
 This register EXTENDS existing AAHP machinery; it does not fork or replace it.
 It reuses the confidence register in `.ai/handoff/TRUST.md`, the Trust Decay rule

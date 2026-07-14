@@ -1,11 +1,11 @@
 ---
-description: "Draft v0.1: run an adversarial challenge against a claim, output, or decision and report provenance gaps (read-only, does not gate)"
+description: "Run an adversarial challenge against a claim, output, or decision and report provenance gaps (read-only, does not gate)"
 allowed-tools: "Read, Grep, Glob, Bash(git diff*), Bash(git log*)"
 ---
 
 Run an adversarial challenge against a target claim, output, decision, or task.
 
-This command is a proposed part of the Grounded Reflection Layer (Draft v0.1). It
+This command is part of the Grounded Reflection Layer (v1.0, active). It
 reverses the burden of proof: instead of asking "Is this correct?", it asks "What
 is the strongest reason this could be wrong?" It is read-only and analytical - it
 produces a Challenge Report, updates nothing, and does not gate a commit. The
@@ -80,7 +80,7 @@ Run `/challenge` when the target is any of the following:
 ## Output Format
 
 ```
-=== Challenge Report (Draft v0.1) ===
+=== Challenge Report (v1.0) ===
 
 Target: [claim / decision / file / diff range / task ID]
 Original claim or decision: [restated verbatim]

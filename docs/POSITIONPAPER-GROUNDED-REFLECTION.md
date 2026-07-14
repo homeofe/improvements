@@ -1,18 +1,18 @@
 # Position Paper: From Agentic Engineering to Grounded Reflection Engineering
 
-**Status:** Draft v0.1  
+**Status:** v1.0 (active, adopted 2026-07-14)  
 **Project:** AI Workflow Improvement Framework / AAHP  
 **Author:** Emre Kohler / Elvatis  
 **Purpose:** Governance extension for multi-model AI workflows - structured handoff, critical self-reflection, provenance tracking, and grounded verification.
 
 ---
 
-## Scope of This Draft
+## Scope
 
-This document is a proposal. The Grounded Reflection Layer described here is
-defined, not yet running. Everything below states what the layer would do, which
-files it proposes to add, and how it would extend existing AAHP machinery. Nothing
-here should be read as a description of a system already in operation.
+This document describes the Grounded Reflection Layer as adopted in v1.0 (active
+since 2026-07-14). Everything below states what the layer does, which files it
+adds, and how it extends existing AAHP machinery. The layer is live in the
+framework; it is no longer a proposal awaiting review.
 
 The layer extends AAHP; it does not fork or replace it. Where an existing mechanism
 already covers a concern, this paper references it rather than restating it:
@@ -26,7 +26,7 @@ already covers a concern, this paper references it rather than restating it:
   agent in `.claude/agents/reviewer.md`, and the `/review-cycle` command in
   `.claude/commands/review-cycle.md`.
 - The deterministic gate is `scripts/verify-handoff.sh` (checksum, content-drift,
-  commit-pointer, TRUST-TTL). The proposed auditor reasons on top of that gate; it
+  commit-pointer, TRUST-TTL). The auditor reasons on top of that gate; it
   never restates or replaces its mechanical checks.
 
 ---
@@ -39,8 +39,8 @@ useful, but it may be insufficient. Loops can improve outputs only if their
 verification steps are anchored outside the same model-family assumptions.
 Otherwise, loops may converge toward plausibility rather than toward truth.
 
-This paper proposes "Grounded Reflection Engineering": a governance layer that would
-combine multi-model review, adversarial challenge, explicit provenance, randomized
+This paper defines "Grounded Reflection Engineering": a governance layer that
+combines multi-model review, adversarial challenge, explicit provenance, randomized
 audits, and external verification anchors. The goal is not to prove that an AI system
 is internally honest. The goal is to reduce undetected error, hallucination,
 manipulation, and circular self-confirmation by making truth claims inspectable,
@@ -93,8 +93,8 @@ models, and consensus is not grounding.
 
 ## 4. Relationship to AAHP
 
-AAHP operates on the state and behavior layer. This proposal would extend it with a
-Grounded Reflection Layer that answers:
+AAHP operates on the state and behavior layer. The Grounded Reflection Layer extends
+it to answer:
 
 - What claims were made?
 - Which claims are `verified` (grounded by an external anchor)?
@@ -122,7 +122,7 @@ Cross-model review, adversarial challenge, devil's-advocate review, assumption
 extraction, failure-mode analysis, alternative-hypothesis testing, and confidence
 calibration. Part of this layer already exists as Phase 4 review
 (`.ai/handoff/WORKFLOW.md`), the reviewer agent (`.claude/agents/reviewer.md`), and
-`/review-cycle`. The proposal would add the adversarial `/challenge` command and the
+`/review-cycle`. The layer adds the adversarial `/challenge` command and the
 auditor agent on top of that existing review step.
 
 **Layer 3 - Grounded Governance (Is the claim anchored outside the model?)**
@@ -156,7 +156,7 @@ never final verification for high-impact work.
 - Valid final state: `generated_by: model_a` / `reviewed_by: model_b` /
   `verified_by: <deterministic tool or test>` / `status: verified`.
 
-The existing self-review limits are enforced by the operating rules in the proposed
+The existing self-review limits are enforced by the operating rules in
 `.claude/rules/grounded-reflection.md`; this paper does not restate them.
 
 ### Principle 3: Separate Generator, Reviewer, and Auditor
@@ -164,7 +164,7 @@ The existing self-review limits are enforced by the operating rules in the propo
 The implementer creates; the reviewer critiques (Phase 4); the auditor challenges
 provenance and grounding; the handoff-manager updates AAHP state; tools verify where
 possible. The implementer, reviewer, and handoff-manager already exist in
-`.ai/handoff/WORKFLOW.md`. The auditor is the new proposed role.
+`.ai/handoff/WORKFLOW.md`. The auditor is the new role this layer adds.
 
 ### Principle 4: Grounding Is Stronger Than Consensus
 
@@ -190,9 +190,9 @@ Do not record a confidence number without its reason.
 
 ---
 
-## 7. Proposed AAHP Extension
+## 7. AAHP Extension
 
-The layer proposes the following new files and one extension, all as Draft v0.1:
+The layer comprises the following files and one extension, active as of v1.0:
 
 - `docs/POSITIONPAPER-GROUNDED-REFLECTION.md` - this paper.
 - `.ai/GROUNDING.md` - task-type to anchor matrix, confidence bands, and TRUST field
@@ -308,7 +308,7 @@ grounding anchor instead of tests.
 
 ## 11. Success Criteria
 
-The layer would be working if, over time:
+The layer is working as intended if, over time:
 
 - Fewer model-only claims are labelled `verified`.
 - Review records distinguish plausibility from proof.
@@ -323,9 +323,8 @@ The layer would be working if, over time:
 
 The direction is from structured handoff to grounded reflection. Truth has to be
 earned through explicit evidence, adversarial pressure, external grounding, and
-accountable state transitions. This paper is Draft v0.1: it proposes the vocabulary,
-the two axes, and the file set, and it invites review before any of the proposed
-files are treated as normative.
+accountable state transitions. This paper is adopted at v1.0: it defines the
+vocabulary, the two axes, and the file set, all now active in the framework.
 
 ---
 
@@ -333,4 +332,5 @@ files are treated as normative.
 
 | Version | Date | Notes |
 |---|---:|---|
+| v1.0 | 2026-07-14 | Promoted from Draft v0.1 to active (adopted). Status stamps flipped across the layer; vocabulary, two axes, file set, and decisions unchanged. |
 | v0.1 | 2026-07-13 | Initial draft. Two-axis status and provenance model, hedged core thesis, labelled motivating hypothesis, auditor as optional Phase 4.5, proposed file set. |
