@@ -72,7 +72,7 @@ The layer is motivated by a hypothesis, not by an established finding:
 > alone may not catch every error.
 
 This hypothesis is recorded here at its true confidence level. It carries no external
-anchor and no citation in this draft, so it stays at status `untested`. It motivates
+anchor and no citation here, so it stays at status `untested`. It motivates
 the design but is not used as proof of anything. The layer is worth building even if
 the hypothesis is only partly true, because external grounding helps regardless of a
 model's internal mechanics.
@@ -177,8 +177,7 @@ or `human_confirmed` can support status `verified`.
 
 Periodic, non-deterministic audits of grounding claims reduce the incentive to game a
 fixed checklist. The auditor is invoked on demand (see Section 7) and may sample
-high-impact claims at random. How that random sampling is scheduled and invoked is an
-open design question for v1.0; this draft states only the principle.
+high-impact claims at random. How that random sampling is scheduled and invoked is a deferred design question; this paper states only the principle.
 
 ### Principle 6: Confidence Requires a Source
 
@@ -225,7 +224,7 @@ The auditor emits the same verdict vocabulary as the reviewer: `SHIP`,
 
 ## 8. Critical Self-Reflection Mechanisms
 
-The layer proposes a small set of reflection mechanisms, surfaced through
+The layer provides a small set of reflection mechanisms, surfaced through
 `/challenge` and the reflection prompt templates:
 
 - Assumption extraction (which assumptions is this output relying on?).
