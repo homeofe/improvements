@@ -132,6 +132,25 @@ This is where agents read and write project state. See the [AAHP Protocol README
 | `WORKFLOW.md` | Agent pipeline definition | When workflow changes |
 | `TRUST.md` | Verification register + TTL | When trust state changes |
 
+### Local Hook Coverage
+
+The framework installs two local git hooks from `scripts/hooks/`: `pre-commit`
+(fast handoff gate) and `pre-push` (full gate). Install or repair them with the
+idempotent installer, then verify with the read-only checker:
+
+```bash
+# Install or update the local hooks (idempotent):
+scripts/install-hooks.sh /path/to/your/repo
+
+# Verify coverage without modifying anything (read-only):
+scripts/verify-hooks.sh /path/to/your/repo
+```
+
+`scripts/verify-hooks.sh` classifies each required hook as installed, drifted,
+exempt, or unknown, and exits non-zero on drift or a missing required hook. The
+estate contract (which repositories require which hooks, plus any declared
+exceptions) is published in [docs/hook-coverage.md](docs/hook-coverage.md).
+
 ### Grounded Reflection Layer (v1.0)
 
 An optional governance layer that extends AAHP so claims are grounded, not just plausible. It adds a provenance axis, a `/challenge` command, an on-demand `auditor` agent, and a grounding register. It reuses the existing trust register (`verified`/`assumed`/`untested`), the Trust Decay TTL rule, and Phase 4 cross-model review rather than duplicating them.
@@ -259,6 +278,7 @@ After integration, verify:
 - [ ] No em dashes in any framework file
 - [ ] No secrets or absolute paths in committed files
 - [ ] `.gitignore` excludes `.claude/settings.local.json`
+- [ ] Local hooks installed and verified (`scripts/verify-hooks.sh .` exits 0; see [docs/hook-coverage.md](docs/hook-coverage.md))
 
 ---
 
