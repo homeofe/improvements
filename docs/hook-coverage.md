@@ -52,9 +52,22 @@ and LF working trees compare equal).
 ## Consumer inventory and coverage registry
 
 The consumer list is derived from the canonical source that already hardcodes it:
-`.github/workflows/gate-sync.yml` and `scripts/sync-gate-scripts.sh` (the
-`CONSUMERS=(...)` array). The framework source repo itself is added because it
-also installs and runs the same local hooks.
+the `CONSUMERS=(...)` array in `.github/workflows/gate-sync.yml`. The framework
+source repo itself is added because it also installs and runs the same local
+hooks. The list was reconciled with the real gated estate on 2026-07-17: every
+listed consumer was verified to carry `scripts/_aahp-lib.sh` on its default
+branch, giving 22 consumers plus the framework source (23 registry rows).
+
+### Deliberate exclusions
+
+Two gate-related repositories are intentionally NOT consumers and must not be
+added to the registry or to the gate-sync `CONSUMERS` array:
+
+- **homeofe/AAHP**: the AAHP spec source. It maintains its own copies of the
+  gate scripts and must never be overwritten by the sync.
+- **elvatis/secure-smart-factory**: owner-excluded from portfolio-wide syncs;
+  including it requires an explicit scope agreement per the ideabase project
+  registry.
 
 Registry columns:
 
@@ -71,17 +84,28 @@ Registry columns:
 | repo | type | required_hooks | exempt_hooks | reason |
 |------|------|----------------|--------------|--------|
 | homeofe/improvements | framework-source | pre-commit,pre-push | - | - |
-| homeofe/supply-chain-guard | aahp-tooling | pre-commit,pre-push | - | - |
-| homeofe/aahp-runner | aahp-tooling | pre-commit,pre-push | - | - |
+| homeofe/aahp-cron | aahp-tooling | pre-commit,pre-push | - | - |
 | homeofe/aahp-hub | aahp-tooling | pre-commit,pre-push | - | - |
-| elvatis/elvatis-security-platform | product-platform | pre-commit,pre-push | - | - |
-| elvatis/atlas | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-defense | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-awareness | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-trust | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-client-portal | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-intelligence | product-platform | pre-commit,pre-push | - | - |
+| homeofe/aahp-orchestrator | aahp-tooling | pre-commit,pre-push | - | - |
+| homeofe/aahp-runner | aahp-tooling | pre-commit,pre-push | - | - |
+| homeofe/aahp-swarm | aahp-tooling | pre-commit,pre-push | - | - |
+| homeofe/akido-mcp | aahp-tooling | pre-commit,pre-push | - | - |
+| homeofe/supply-chain-guard | aahp-tooling | pre-commit,pre-push | - | - |
+| elvatis/AEGIS | product-platform | pre-commit,pre-push | - | - |
 | elvatis/ai.elvatis.com | deploy-target | pre-commit,pre-push | - | - |
+| elvatis/atlas | product-platform | pre-commit,pre-push | - | - |
+| elvatis/conduit-bridge | deploy-target | pre-commit,pre-push | - | - |
+| elvatis/conduit-vscode | deploy-target | pre-commit,pre-push | - | - |
+| elvatis/elvatis-awareness | product-platform | pre-commit,pre-push | - | - |
+| elvatis/elvatis-client-portal | product-platform | pre-commit,pre-push | - | - |
+| elvatis/elvatis-defense | product-platform | pre-commit,pre-push | - | - |
+| elvatis/elvatis-homepage | deploy-target | pre-commit,pre-push | - | - |
+| elvatis/elvatis-intelligence | product-platform | pre-commit,pre-push | - | - |
+| elvatis/elvatis-mcp | deploy-target | pre-commit,pre-push | - | - |
+| elvatis/elvatis-security-platform | product-platform | pre-commit,pre-push | - | - |
+| elvatis/elvatis-sso | product-platform | pre-commit,pre-push | - | - |
+| elvatis/elvatis-trust | product-platform | pre-commit,pre-push | - | - |
+| elvatis/netos | product-platform | pre-commit,pre-push | - | - |
 <!-- END hook-coverage-registry -->
 
 ---

@@ -86,18 +86,38 @@ jobs:
           # Every repo that vendors the four gate scripts under scripts/.
           # A repo whose scripts/_aahp-lib.sh is missing (404 / moved) is
           # skipped at runtime by the guard below, so the list stays declarative.
+          # Verified against the fleet on 2026-07-17: each listed repo has
+          # scripts/_aahp-lib.sh on its default branch.
+          #
+          # Deliberate exclusions (do NOT add):
+          #   - homeofe/AAHP: the AAHP spec source; it maintains its own copies
+          #     of the scripts and must never be overwritten by this sync.
+          #   - elvatis/secure-smart-factory: owner-excluded from portfolio-wide
+          #     syncs; touching it requires an explicit scope agreement (see the
+          #     ideabase project registry).
           CONSUMERS=(
-            "homeofe/supply-chain-guard"
-            "homeofe/aahp-runner"
+            "homeofe/aahp-cron"
             "homeofe/aahp-hub"
-            "elvatis/elvatis-security-platform"
-            "elvatis/atlas"
-            "elvatis/elvatis-defense"
-            "elvatis/elvatis-awareness"
-            "elvatis/elvatis-trust"
-            "elvatis/elvatis-client-portal"
-            "elvatis/elvatis-intelligence"
+            "homeofe/aahp-orchestrator"
+            "homeofe/aahp-runner"
+            "homeofe/aahp-swarm"
+            "homeofe/akido-mcp"
+            "homeofe/supply-chain-guard"
+            "elvatis/AEGIS"
             "elvatis/ai.elvatis.com"
+            "elvatis/atlas"
+            "elvatis/conduit-bridge"
+            "elvatis/conduit-vscode"
+            "elvatis/elvatis-awareness"
+            "elvatis/elvatis-client-portal"
+            "elvatis/elvatis-defense"
+            "elvatis/elvatis-homepage"
+            "elvatis/elvatis-intelligence"
+            "elvatis/elvatis-mcp"
+            "elvatis/elvatis-security-platform"
+            "elvatis/elvatis-sso"
+            "elvatis/elvatis-trust"
+            "elvatis/netos"
           )
 
           BRANCH="chore/aahp-gate-sync"

@@ -109,16 +109,32 @@ after cloning (moved path, or the token lacks access) is skipped at runtime, so
 the list stays declarative. Make sure `GATE_SYNC_TOKEN` has write access to any
 repo you add.
 
-Current consumers:
+Current consumers (22, verified 2026-07-17: each has `scripts/_aahp-lib.sh` on
+its default branch):
 
-- `homeofe/supply-chain-guard`
-- `homeofe/aahp-runner`
+- `homeofe/aahp-cron`
 - `homeofe/aahp-hub`
-- `elvatis/elvatis-security-platform`
-- `elvatis/atlas`
-- `elvatis/elvatis-defense`
-- `elvatis/elvatis-awareness`
-- `elvatis/elvatis-trust`
-- `elvatis/elvatis-client-portal`
-- `elvatis/elvatis-intelligence`
+- `homeofe/aahp-orchestrator`
+- `homeofe/aahp-runner`
+- `homeofe/aahp-swarm`
+- `homeofe/akido-mcp`
+- `homeofe/supply-chain-guard`
+- `elvatis/AEGIS`
 - `elvatis/ai.elvatis.com`
+- `elvatis/atlas`
+- `elvatis/conduit-bridge`
+- `elvatis/conduit-vscode`
+- `elvatis/elvatis-awareness`
+- `elvatis/elvatis-client-portal`
+- `elvatis/elvatis-defense`
+- `elvatis/elvatis-homepage`
+- `elvatis/elvatis-intelligence`
+- `elvatis/elvatis-mcp`
+- `elvatis/elvatis-security-platform`
+- `elvatis/elvatis-sso`
+- `elvatis/elvatis-trust`
+- `elvatis/netos`
+
+Deliberate exclusions: `homeofe/AAHP` (spec source, maintains its own scripts)
+and `elvatis/secure-smart-factory` (owner-excluded from portfolio-wide syncs;
+requires an explicit scope agreement per the ideabase project registry).
