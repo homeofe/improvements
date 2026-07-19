@@ -10,7 +10,7 @@
 #   Layer 4: TRUST-TTL expiry (advisory)
 # It then runs `aahp doctor --json` to record the 6-gate conformance snapshot.
 #
-# The CLI (@elvatis_com/aahp, pinned to 3.8.0 below) is the authoritative
+# The CLI (@elvatis_com/aahp, pinned to 3.8.1 below) is the authoritative
 # conformance checker. The vendored bash gate scripts under scripts/ remain the
 # canonical fleet source that this repo distributes to consumer repos (see
 # scripts/sync-gate-scripts.sh and .github/workflows/gate-sync.yml) and back the
@@ -63,8 +63,8 @@ jobs:
 
       - name: Run aahp verify (CI level, no escape hatch)
         if: ${{ github.actor != 'dependabot[bot]' && github.event.head_commit.author.username != 'dependabot[bot]' }}
-        run: npx -y @elvatis_com/aahp@3.8.0 verify . --level ci
+        run: npx -y @elvatis_com/aahp@3.8.1 verify . --level ci
 
       - name: Record aahp doctor conformance snapshot
         if: ${{ github.actor != 'dependabot[bot]' && github.event.head_commit.author.username != 'dependabot[bot]' }}
-        run: npx -y @elvatis_com/aahp@3.8.0 doctor . --json
+        run: npx -y @elvatis_com/aahp@3.8.1 doctor . --json
