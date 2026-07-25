@@ -1,13 +1,19 @@
 # Local Hook Coverage
 
-> The estate contract for local AAHP git hooks across the framework and its
-> consumer repositories: which repositories exist, which local hooks each one
-> must install, and where a hook is intentionally exempt.
+> The coverage contract for local AAHP git hooks: which local hooks a repository
+> must install, how that requirement is declared, and where a hook is
+> intentionally exempt.
 
 This document is both human-readable and machine-readable. `scripts/verify-hooks.sh`
-parses the registry table below (between the `hook-coverage-registry` markers) to
+parses a registry table (between the `hook-coverage-registry` markers) to
 classify a target repository's hook state as installed, drifted, exempt, or
 unknown without modifying anything.
+
+The registry below is the **contract for this repository plus worked examples**.
+The set of repositories an operator actually runs the framework across is
+deployment configuration, not framework source: keep that registry in your own
+configuration and point the checker at it (see
+[Pointing the checker at your own registry](#pointing-the-checker-at-your-own-registry)).
 
 ---
 
@@ -22,25 +28,32 @@ AAHP verification runs in two places:
    (`.github/workflows/aahp-verify.yml`), which cannot be bypassed.
 
 The CI check is the backstop, but the local hooks are the first line of defense:
-they catch staled handoff state before a commit or push leaves the machine. This
-document turns "which repos have the local hooks, and which are allowed not to"
-from tribal knowledge into one verifiable contract.
+they catch staled handoff state before a commit or push leaves the machine. A
+coverage registry turns "which repos have the local hooks, and which are allowed
+not to" from tribal knowledge into one verifiable contract.
 
 ---
 
-## Required hooks by repository type
+## Required hooks by repository role
 
-Every active consumer is AAHP-gated (it vendors the four gate scripts under
-`scripts/` and runs the handoff gate), so every type currently requires the full
-local hook set. The type axis exists so requirements can diverge later without
-reworking the tooling.
+A **role** is a coarse label for what a repository is for. It exists so hook
+requirements can diverge later (a role could stop requiring a local hook)
+without reworking the tooling. The roles below are the framework's suggested
+vocabulary; an operator may use their own, because the checker reads the role
+only as an opaque label.
 
-| Repository type   | Description                                             | Required local hooks   |
-|-------------------|---------------------------------------------------------|------------------------|
-| framework-source  | The canonical framework repo (homeofe/improvements)     | pre-commit, pre-push   |
-| aahp-tooling      | AAHP CLIs and services (guard, runner, hub)             | pre-commit, pre-push   |
-| product-platform  | Elvatis product applications                            | pre-commit, pre-push   |
-| deploy-target     | Build and deploy targets that still run the gate        | pre-commit, pre-push   |
+| Role              | Description                                              | Required local hooks   |
+|-------------------|----------------------------------------------------------|------------------------|
+| framework-source  | The canonical framework repository itself                | pre-commit, pre-push   |
+| aahp-tooling      | AAHP CLIs and services                                   | pre-commit, pre-push   |
+| product-platform  | Application repositories                                 | pre-commit, pre-push   |
+| deploy-target     | Build and deploy targets that still run the gate         | pre-commit, pre-push   |
+
+Every AAHP-gated repository (one that vendors the four gate scripts under
+`scripts/` and runs the handoff gate) requires the full local hook set, so today
+every role carries the same requirement. Assigning roles is therefore a
+descriptive exercise, not a security boundary, and a registry may legitimately
+use a single role for everything.
 
 The canonical hook contents live in `scripts/hooks/pre-commit` and
 `scripts/hooks/pre-push`. A hook is "installed" only when its content matches
@@ -49,30 +62,16 @@ and LF working trees compare equal).
 
 ---
 
-## Consumer inventory and coverage registry
+## Registry format
 
-The consumer list is derived from the canonical source that already hardcodes it:
-the `CONSUMERS=(...)` array in `.github/workflows/gate-sync.yml`. The framework
-source repo itself is added because it also installs and runs the same local
-hooks. The list was reconciled with the real gated estate on 2026-07-17: every
-listed consumer was verified to carry `scripts/_aahp-lib.sh` on its default
-branch, giving 22 consumers plus the framework source (23 registry rows).
-
-### Deliberate exclusions
-
-Two gate-related repositories are intentionally NOT consumers and must not be
-added to the registry or to the gate-sync `CONSUMERS` array:
-
-- **homeofe/AAHP**: the AAHP spec source. It maintains its own copies of the
-  gate scripts and must never be overwritten by the sync.
-- **elvatis/secure-smart-factory**: owner-excluded from portfolio-wide syncs;
-  including it requires an explicit scope agreement per the ideabase project
-  registry.
+One row per repository, between the marker comments so the table can be found
+in a file that also contains prose.
 
 Registry columns:
 
-- **repo**: `owner/name` as used by the gate-sync workflow.
-- **type**: one of the repository types above.
+- **repo**: `owner/name`, matched against the target's `origin` remote (or the
+  `--repo` argument).
+- **type**: the role label, from the table above or your own vocabulary.
 - **required_hooks**: comma-separated hook names, or `none` when a repo requires
   no local hooks.
 - **exempt_hooks**: comma-separated hook names that are explicitly exempt for
@@ -80,33 +79,45 @@ Registry columns:
 - **reason**: short justification for the exemption, or `-` when nothing is
   exempt. Must not contain a pipe character.
 
+A repository with no row is reported as `UNKNOWN`, which fails: coverage is
+opt-in by declaration, never by omission.
+
 <!-- BEGIN hook-coverage-registry -->
 | repo | type | required_hooks | exempt_hooks | reason |
 |------|------|----------------|--------------|--------|
 | homeofe/improvements | framework-source | pre-commit,pre-push | - | - |
-| homeofe/aahp-cron | aahp-tooling | pre-commit,pre-push | - | - |
-| homeofe/aahp-hub | aahp-tooling | pre-commit,pre-push | - | - |
-| homeofe/aahp-orchestrator | aahp-tooling | pre-commit,pre-push | - | - |
-| homeofe/aahp-runner | aahp-tooling | pre-commit,pre-push | - | - |
-| homeofe/aahp-swarm | aahp-tooling | pre-commit,pre-push | - | - |
-| homeofe/akido-mcp | aahp-tooling | pre-commit,pre-push | - | - |
-| homeofe/supply-chain-guard | aahp-tooling | pre-commit,pre-push | - | - |
-| elvatis/AEGIS | product-platform | pre-commit,pre-push | - | - |
-| elvatis/ai.elvatis.com | deploy-target | pre-commit,pre-push | - | - |
-| elvatis/atlas | product-platform | pre-commit,pre-push | - | - |
-| elvatis/conduit-bridge | deploy-target | pre-commit,pre-push | - | - |
-| elvatis/conduit-vscode | deploy-target | pre-commit,pre-push | - | - |
-| elvatis/elvatis-awareness | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-client-portal | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-defense | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-homepage | deploy-target | pre-commit,pre-push | - | - |
-| elvatis/elvatis-intelligence | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-mcp | deploy-target | pre-commit,pre-push | - | - |
-| elvatis/elvatis-security-platform | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-sso | product-platform | pre-commit,pre-push | - | - |
-| elvatis/elvatis-trust | product-platform | pre-commit,pre-push | - | - |
-| elvatis/netos | product-platform | pre-commit,pre-push | - | - |
+| acme/example-app | product-platform | pre-commit,pre-push | - | - |
+| acme/example-docs-mirror | product-platform | pre-commit,pre-push | all | read-only mirror, gate runs in CI only |
 <!-- END hook-coverage-registry -->
+
+The first row is this repository's own contract, so `scripts/verify-hooks.sh .`
+works in a fresh checkout. The `acme/*` rows are illustrative placeholders that
+show a plain row and an exempted row; they match no real repository and are safe
+to delete in a fork.
+
+---
+
+## Pointing the checker at your own registry
+
+Keep your estate registry wherever the rest of your deployment configuration
+lives (a private repo, a config management checkout, an operator's working
+directory). It is the same Markdown format: the two marker comments around a
+table with the five columns above. Then either pass it explicitly:
+
+```bash
+scripts/verify-hooks.sh --registry /path/to/private/hook-coverage.md /path/to/checkout
+```
+
+or set it once for a shell or CI job:
+
+```bash
+export AAHP_HOOK_REGISTRY=/path/to/private/hook-coverage.md
+scripts/verify-hooks.sh /path/to/checkout
+```
+
+Precedence is `--registry`, then `AAHP_HOOK_REGISTRY`, then the copy in this
+repository. Nothing else in the framework reads the registry, so that one
+setting redirects the whole contract.
 
 ---
 
@@ -132,22 +143,15 @@ missing hook with no registry exemption is reported as `unknown` and fails.
 
 ### Worked example
 
-A hypothetical documentation-only mirror that has no local commit workflow would
-be declared like this (illustrative only, not a real consumer):
+The `acme/example-docs-mirror` row above is the exemption shape: a repository
+with no local commit workflow, declared `all`-exempt with a reason.
 
 ```
-| owner/docs-mirror | product-platform | pre-commit,pre-push | all | read-only mirror, gate runs in CI only |
+| acme/example-docs-mirror | product-platform | pre-commit,pre-push | all | read-only mirror, gate runs in CI only |
 ```
 
-`scripts/verify-hooks.sh --repo owner/docs-mirror <path>` would then report both
-hooks as `EXEMPT` and exit zero.
-
-### Active exemptions
-
-**None as of 2026-07-14.** Every listed consumer is AAHP-gated and supports both
-local hooks, so no repository currently omits a required hook. This section is
-the single place to record an exemption if one becomes necessary; add a row to
-the registry above with a non-empty `exempt_hooks` and `reason`.
+`scripts/verify-hooks.sh --repo acme/example-docs-mirror <path>` reports both
+hooks as `EXEMPT` and exits zero.
 
 ---
 
@@ -161,7 +165,7 @@ hook; it only reports.
 scripts/verify-hooks.sh .
 
 # Verify an arbitrary checkout, naming the repo explicitly:
-scripts/verify-hooks.sh --repo homeofe/supply-chain-guard /path/to/checkout
+scripts/verify-hooks.sh --repo acme/example-app /path/to/checkout
 ```
 
 Per-hook states:
@@ -186,8 +190,8 @@ scripts/install-hooks.sh /path/to/checkout
 
 ## Rollout
 
-Propagating the local hooks to consumers that are missing or drifting is a
-separate, reviewed phase (one pull request per consumer, opened only after that
-repo's active-agent worktrees are clean). This document and
-`scripts/verify-hooks.sh` are the framework-side contract that rollout is
+Propagating the local hooks to repositories that are missing or drifting is a
+separate, reviewed phase (one pull request per repository, opened only after
+that repo's active-agent worktrees are clean). This document and
+`scripts/verify-hooks.sh` are the framework-side contract that a rollout is
 measured against; the rollout itself does not happen here.
