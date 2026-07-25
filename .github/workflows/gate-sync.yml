@@ -96,8 +96,10 @@ jobs:
           GATE_SYNC_TOKEN: ${{ secrets.GATE_SYNC_TOKEN }}
           GH_TOKEN: ${{ secrets.GATE_SYNC_TOKEN }}
           # Target list: the manual input wins for a one-off run, otherwise the
-          # configured variable. Never hardcoded in this file.
-          GATE_SYNC_CONSUMERS: ${{ inputs.consumers || vars.GATE_SYNC_CONSUMERS }}
+          # configured variable. Never hardcoded in this file. github.event.inputs
+          # is used rather than the inputs context because it resolves to null on
+          # the push trigger instead of depending on context availability.
+          GATE_SYNC_CONSUMERS: ${{ github.event.inputs.consumers || vars.GATE_SYNC_CONSUMERS }}
         run: |
           set -euo pipefail
 
