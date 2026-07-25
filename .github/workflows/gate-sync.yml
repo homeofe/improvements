@@ -13,24 +13,47 @@
 #   - push to main that touches one of the four gate scripts
 #   - manual (workflow_dispatch)
 #
+# CONSUMER LIST (required configuration)
+#   This repository ships the MECHANISM; the list of repositories it targets is
+#   deployment configuration and is read at runtime from the Actions variable
+#   GATE_SYNC_CONSUMERS. Format: `owner/name` entries separated by newlines,
+#   commas, or spaces; blank lines and `# comment` tails are ignored. Example:
+#
+#     acme/example-app
+#     acme/example-service
+#
+#   Set it under Settings -> Secrets and variables -> Actions -> Variables
+#   (repository or organization scope). Variables are not published with the
+#   source, so the list is maintained without being part of the public tree.
+#   Entries are registered with ::add-mask:: before use, so the run log reports
+#   progress by position ("consumer 3/12") rather than by name.
+#
+#   Fallback for forks and outside adopters: run the workflow manually and pass
+#   the list in the `consumers` input. Note that workflow_dispatch inputs are
+#   recorded in the run metadata, so prefer the variable when the list should
+#   not be part of a public run record.
+#
+#   With neither configured the job exits successfully after a warning: no
+#   configuration, nothing to sync.
+#
 # RUNNER
-#   homeofe/improvements is a PUBLIC repo, so this uses GitHub-hosted
-#   ubuntu-latest, matching .github/workflows/aahp-verify.yml. (If the repo were
-#   private, per the org CI-cost rule this would run on
-#   [self-hosted, linux, x64, elvatis-ci] instead.)
+#   Defaults to GitHub-hosted ubuntu-latest, matching
+#   .github/workflows/aahp-verify.yml. An operator who runs this on their own
+#   infrastructure sets the Actions variable GATE_SYNC_RUNNER to their runner
+#   label (a runner group or one distinguishing label) instead of editing this
+#   file.
 #
 # TOKEN / SECRET (required)
 #   The default GITHUB_TOKEN is scoped to THIS repo only and cannot push
 #   branches or open pull requests in the OTHER (consumer) repos. This workflow
 #   therefore needs a cross-repo token provided as the secret GATE_SYNC_TOKEN:
 #     - Classic PAT with the `repo` scope, owned by a user (or a machine/bot
-#       account) that has write access to every consumer repo listed below in
-#       both the homeofe and elvatis orgs; OR
+#       account) that has write access to every configured consumer repo; OR
 #     - A fine-grained PAT granting Contents: read/write and Pull requests:
 #       read/write on each consumer repo.
-#   Store it as an Actions secret named GATE_SYNC_TOKEN in homeofe/improvements
-#   (Settings -> Secrets and variables -> Actions). Without it the job fails
-#   fast with a clear message.
+#   Store it as an Actions secret named GATE_SYNC_TOKEN in this repository
+#   (Settings -> Secrets and variables -> Actions). Without it the job exits
+#   early with a clear message.
 
 name: Gate Script Sync
 
@@ -43,8 +66,13 @@ on:
       - 'scripts/aahp-manifest.sh'
       - 'scripts/verify-handoff.sh'
   workflow_dispatch:
+    inputs:
+      consumers:
+        description: 'One-off consumer list (owner/name, comma or newline separated). Overrides the GATE_SYNC_CONSUMERS variable for this run. Recorded in the run metadata.'
+        required: false
+        type: string
 
-# Only the checkout of THIS public repo needs the default token (read is enough);
+# Only the checkout of THIS repo needs the default token (read is enough);
 # all cross-repo writes go through GATE_SYNC_TOKEN.
 permissions:
   contents: read
@@ -55,7 +83,7 @@ concurrency:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.GATE_SYNC_RUNNER || 'ubuntu-latest' }}
 
     steps:
       - name: Checkout canonical (homeofe/improvements)
@@ -67,6 +95,9 @@ jobs:
           # value is embedded in the clone/push URLs for git.
           GATE_SYNC_TOKEN: ${{ secrets.GATE_SYNC_TOKEN }}
           GH_TOKEN: ${{ secrets.GATE_SYNC_TOKEN }}
+          # Target list: the manual input wins for a one-off run, otherwise the
+          # configured variable. Never hardcoded in this file.
+          GATE_SYNC_CONSUMERS: ${{ inputs.consumers || vars.GATE_SYNC_CONSUMERS }}
         run: |
           set -euo pipefail
 
@@ -82,43 +113,52 @@ jobs:
 
           CANON="$PWD"
 
-          # --- Hardcoded consumer list ------------------------------------
-          # Every repo that vendors the four gate scripts under scripts/.
-          # A repo whose scripts/_aahp-lib.sh is missing (404 / moved) is
-          # skipped at runtime by the guard below, so the list stays declarative.
-          # Verified against the fleet on 2026-07-17: each listed repo has
-          # scripts/_aahp-lib.sh on its default branch.
-          #
-          # Deliberate exclusions (do NOT add):
-          #   - homeofe/AAHP: the AAHP spec source; it maintains its own copies
-          #     of the scripts and must never be overwritten by this sync.
-          #   - elvatis/secure-smart-factory: owner-excluded from portfolio-wide
-          #     syncs; touching it requires an explicit scope agreement (see the
-          #     ideabase project registry).
-          CONSUMERS=(
-            "homeofe/aahp-cron"
-            "homeofe/aahp-hub"
-            "homeofe/aahp-orchestrator"
-            "homeofe/aahp-runner"
-            "homeofe/aahp-swarm"
-            "homeofe/akido-mcp"
-            "homeofe/supply-chain-guard"
-            "elvatis/AEGIS"
-            "elvatis/ai.elvatis.com"
-            "elvatis/atlas"
-            "elvatis/conduit-bridge"
-            "elvatis/conduit-vscode"
-            "elvatis/elvatis-awareness"
-            "elvatis/elvatis-client-portal"
-            "elvatis/elvatis-defense"
-            "elvatis/elvatis-homepage"
-            "elvatis/elvatis-intelligence"
-            "elvatis/elvatis-mcp"
-            "elvatis/elvatis-security-platform"
-            "elvatis/elvatis-sso"
-            "elvatis/elvatis-trust"
-            "elvatis/netos"
-          )
+          # --- Consumer list from configuration ---------------------------
+          # Read from GATE_SYNC_CONSUMERS (Actions variable, or the manual
+          # input). Accepts newline-, comma-, or space-separated `owner/name`
+          # entries and ignores blank lines and `#` comment tails. A repo whose
+          # scripts/_aahp-lib.sh is missing (404 / moved) is skipped at runtime
+          # by the guard below, so the list stays declarative.
+          CONSUMERS=()
+          malformed=0
+          set -f   # no globbing while the list is word-split below
+          while IFS= read -r line; do
+            line="${line%%#*}"            # drop a comment tail, per line
+            line="${line//$'\r'/}"        # tolerate CRLF values
+            line="${line//,/ }"           # commas are separators too
+            for entry in $line; do        # deliberate word splitting on spaces/tabs
+              if printf '%s' "$entry" | grep -Eq '^[A-Za-z0-9][A-Za-z0-9._-]*/[A-Za-z0-9][A-Za-z0-9._-]*$'; then
+                CONSUMERS+=("$entry")
+              else
+                malformed=$((malformed + 1))
+              fi
+            done
+          done <<< "${GATE_SYNC_CONSUMERS:-}"
+          set +f
+
+          if [ "$malformed" -gt 0 ]; then
+            # The entry itself is not echoed: a typo carries the same content as
+            # a valid entry, and this log is as public as the repository.
+            echo "::warning::$malformed entry/entries in GATE_SYNC_CONSUMERS are not of the form owner/name and were ignored."
+          fi
+
+          if [ "${#CONSUMERS[@]}" -eq 0 ]; then
+            echo "::warning::No consumers configured - nothing to sync."
+            echo "::warning::Set the Actions variable GATE_SYNC_CONSUMERS to a list of"
+            echo "::warning::owner/name repositories (newline, comma, or space separated),"
+            echo "::warning::or pass the 'consumers' input when running this workflow manually."
+            echo "gate sync skipped: GATE_SYNC_CONSUMERS is not configured." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # Register every target as a masked value so no later log line (git
+          # output, gh output, an error message) can print a target name.
+          for repo in "${CONSUMERS[@]}"; do
+            echo "::add-mask::$repo"
+          done
+
+          TOTAL="${#CONSUMERS[@]}"
+          echo "Configured consumers: $TOTAL (reported below by position in GATE_SYNC_CONSUMERS)."
 
           BRANCH="chore/aahp-gate-sync"
           PR_TITLE="chore(aahp): sync gate scripts from homeofe/improvements"
@@ -127,20 +167,23 @@ jobs:
           opened=0
           uptodate=0
           skipped=0
+          idx=0
 
           for repo in "${CONSUMERS[@]}"; do
-            echo "::group::$repo"
+            idx=$((idx + 1))
+            label="consumer $idx/$TOTAL"
+            echo "::group::$label"
             work="$(mktemp -d)"
             url="https://x-access-token:${GATE_SYNC_TOKEN}@github.com/${repo}.git"
 
             if ! git clone --depth 1 "$url" "$work" >/dev/null 2>&1; then
-              echo "skip: cannot clone $repo (missing access or repo)."
+              echo "skip: cannot clone $label (missing access or repo)."
               skipped=$((skipped + 1)); echo "::endgroup::"; continue
             fi
 
             # Path guard: only sync repos that actually vendor the gate lib.
             if [ ! -f "$work/scripts/_aahp-lib.sh" ]; then
-              echo "skip: $repo has no scripts/_aahp-lib.sh (path moved or not a consumer)."
+              echo "skip: $label has no scripts/_aahp-lib.sh (path moved or not a consumer)."
               skipped=$((skipped + 1)); echo "::endgroup::"; continue
             fi
 
@@ -150,12 +193,12 @@ jobs:
             # not abort the whole fleet, so it is guarded (set -e would kill the
             # loop otherwise).
             if ! bash "$CANON/scripts/sync-gate-scripts.sh" "$work"; then
-              echo "::warning::sync-gate-scripts.sh failed for $repo (e.g. unparseable AAHP_HANDOFF_FILES); skipping."
+              echo "::warning::sync-gate-scripts.sh failed for $label (e.g. unparseable AAHP_HANDOFF_FILES); skipping."
               skipped=$((skipped + 1)); echo "::endgroup::"; continue
             fi
 
             if git -C "$work" diff --quiet; then
-              echo "$repo already in sync; nothing to do."
+              echo "$label already in sync; nothing to do."
               uptodate=$((uptodate + 1)); echo "::endgroup::"; continue
             fi
 
@@ -179,35 +222,37 @@ jobs:
               # skips this consumer instead of aborting the fleet.
               if ! bash "$work/scripts/aahp-manifest.sh" "$work" \
                   --agent gate-sync-bot --phase fix --quiet; then
-                echo "::warning::manifest regen failed for $repo; not opening a half-refreshed PR."
+                echo "::warning::manifest regen failed for $label; not opening a half-refreshed PR."
                 skipped=$((skipped + 1)); echo "::endgroup::"; continue
               fi
             fi
 
             # --- 3. Commit on a dedicated branch --------------------------
-            git -C "$work" config user.name  "gate-sync-bot"
-            git -C "$work" config user.email "emre.kohler@outlook.com"
+            # Commit as the standard Actions bot identity: this runs unattended
+            # and the authorship belongs to the automation, not to a person.
+            git -C "$work" config user.name  "github-actions[bot]"
+            git -C "$work" config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             if ! git -C "$work" checkout -B "$BRANCH" >/dev/null 2>&1; then
-              echo "::warning::could not create branch $BRANCH in $repo; skipping."
+              echo "::warning::could not create branch $BRANCH in $label; skipping."
               skipped=$((skipped + 1)); echo "::endgroup::"; continue
             fi
             git -C "$work" add -A scripts/ .ai/handoff/STATUS.md .ai/handoff/MANIFEST.json 2>/dev/null || true
             git -C "$work" commit -q -m "$PR_TITLE" || {
-              echo "nothing staged for $repo (unexpected); skipping."
+              echo "nothing staged for $label (unexpected); skipping."
               skipped=$((skipped + 1)); echo "::endgroup::"; continue
             }
 
             # Force-update the dedicated bot branch (safe: it is owned by this job).
             # A failed push must skip this consumer, not abort the fleet.
             if ! git -C "$work" push --force "$url" "HEAD:refs/heads/$BRANCH" >/dev/null 2>&1; then
-              echo "::warning::push failed for $repo (branch not updated); skipping."
+              echo "::warning::push failed for $label (branch not updated); skipping."
               skipped=$((skipped + 1)); echo "::endgroup::"; continue
             fi
 
             # --- 4. Open a PR if one is not already open ------------------
             existing="$(gh pr list --repo "$repo" --head "$BRANCH" --state open --json number --jq 'length' 2>/dev/null || echo 0)"
             if [ "$existing" != "0" ]; then
-              echo "PR already open for $repo ($BRANCH); the push updated it."
+              echo "PR already open for $label ($BRANCH); the push updated it."
               opened=$((opened + 1)); echo "::endgroup::"; continue
             fi
 
@@ -242,13 +287,13 @@ jobs:
 
             if gh pr create --repo "$repo" --head "$BRANCH" --base main \
                  --title "$PR_TITLE" --body "$body" >/dev/null 2>&1; then
-              echo "opened PR for $repo."
+              echo "opened PR for $label."
               opened=$((opened + 1))
             else
-              echo "::warning::could not open PR for $repo (branch pushed; open manually)."
+              echo "::warning::could not open PR for $label (branch pushed; open manually)."
               skipped=$((skipped + 1))
             fi
             echo "::endgroup::"
           done
 
-          echo "Summary: opened/updated=$opened, already-in-sync=$uptodate, skipped=$skipped"
+          echo "Summary: consumers=$TOTAL, opened/updated=$opened, already-in-sync=$uptodate, skipped=$skipped"

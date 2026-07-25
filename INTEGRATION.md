@@ -148,8 +148,11 @@ scripts/verify-hooks.sh /path/to/your/repo
 
 `scripts/verify-hooks.sh` classifies each required hook as installed, drifted,
 exempt, or unknown, and exits non-zero on drift or a missing required hook. The
-estate contract (which repositories require which hooks, plus any declared
-exceptions) is published in [docs/hook-coverage.md](docs/hook-coverage.md).
+coverage contract (the registry format, the required hooks per repository role,
+and how to declare an exception) is documented in
+[docs/hook-coverage.md](docs/hook-coverage.md); point the checker at your own
+registry with `--registry` or `AAHP_HOOK_REGISTRY` to verify your own
+repositories against it.
 
 ### Grounded Reflection Layer (v1.0)
 

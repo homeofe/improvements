@@ -170,7 +170,6 @@ These files are useful even if you don't use Claude Code.
 ## Related Projects
 
 - [AAHP Protocol](https://github.com/homeofe/AAHP) - The underlying handoff protocol specification
-- [akido-mcp](https://github.com/homeofe/akido-mcp) - MCP server with multi-LLM routing tools
 
 ---
 

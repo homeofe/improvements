@@ -2,7 +2,8 @@
 # verify-hooks.sh - Read-only verification of local AAHP git-hook coverage.
 #
 # Given a target repository checkout, this classifies each REQUIRED local hook
-# (from the coverage registry in docs/hook-coverage.md) as one of:
+# (from the configured coverage registry, docs/hook-coverage.md by default) as
+# one of:
 #   INSTALLED - hook present and byte-identical to the canonical scripts/hooks/ source
 #   DRIFTED   - hook present but its content differs from canonical
 #   EXEMPT    - hook declared exempt for this repo in the registry
@@ -17,8 +18,11 @@
 # Options:
 #   --repo owner/name   Registry key to look up. Default: derived from the
 #                       target's origin remote, falling back to the dir basename.
-#   --registry FILE     Coverage registry to read. Default: docs/hook-coverage.md
-#                       next to this script.
+#   --registry FILE     Coverage registry to read. Defaults to the
+#                       AAHP_HOOK_REGISTRY environment variable when set, else
+#                       docs/hook-coverage.md next to this script. Point either
+#                       at your own registry to verify against your estate
+#                       contract instead of the framework's shipped one.
 #   --quiet             Suppress the banner and info lines; keep the per-hook
 #                       report and the RESULT line.
 #   --help, -h          Show this help.
@@ -53,7 +57,7 @@ while [ $# -gt 0 ]; do
         --registry) REGISTRY="$2"; shift 2 ;;
         --quiet)    QUIET=true; shift ;;
         --help|-h)
-            sed -n '2,32p' "$0" | sed 's/^# \{0,1\}//'
+            sed -n '2,36p' "$0" | sed 's/^# \{0,1\}//'
             exit 0
             ;;
         --*)
@@ -73,7 +77,8 @@ while [ $# -gt 0 ]; do
 done
 
 TARGET="${TARGET:-$(cd "$SCRIPT_DIR/.." && pwd)}"
-REGISTRY="${REGISTRY:-$DEFAULT_REGISTRY}"
+# Registry precedence: --registry, then AAHP_HOOK_REGISTRY, then the shipped copy.
+REGISTRY="${REGISTRY:-${AAHP_HOOK_REGISTRY:-$DEFAULT_REGISTRY}}"
 
 info() { [ "$QUIET" = true ] || echo "$@"; }
 
