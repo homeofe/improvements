@@ -29,9 +29,9 @@ Run a multi-model review cycle on recent changes.
    - Performance changes -> suggest Gemini analysis
    - General code -> suggest different provider than implementer
 
-5. If `akido-mcp` tools are available, offer to run:
-   - `akido_review_diff` for automated diff review
-   - `akido_review_selection` for specific code analysis
+5. If an MCP review server is configured, offer to run its tools:
+   - an automated review of the whole diff
+   - a targeted review of a specific selection
 
 ## Output
 

@@ -106,8 +106,8 @@ Outcome:
   - Everything documented in LOG.md
 
 MCP tools (if available):
-  - akido_review_diff: automated diff analysis
-  - akido_review_selection: specific code review
+  - an automated analysis of the whole diff
+  - a targeted review of a specific selection
 ```
 
 ### Phase 4.5 (optional): Grounding Audit (Auditor Agent)

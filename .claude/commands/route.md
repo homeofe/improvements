@@ -14,7 +14,8 @@ Then recommend:
 2. **Fallback model**: Alternative if primary is unavailable
 3. **Cost tier**: Very Low / Low / Medium / High
 4. **Estimated tokens**: Rough input/output estimate
-5. **MCP tool**: Which akido-mcp tool to use (if applicable)
+5. **MCP tool**: Which tool of your configured MCP routing server to use
+   (if applicable)
 6. **Subagents**: Whether to use subagents and which types
 
 Format the recommendation as a clear table:
