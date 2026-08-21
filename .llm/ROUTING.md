@@ -97,7 +97,8 @@ For high-stakes work, use models from different providers:
 
 ## MCP Tool Mapping
 
-When akido-mcp is available, use these tools:
+When an MCP routing server is configured, use its tools. These are the
+conventional names; substitute your server's equivalents:
 
 | Task | MCP Tool | Model |
 |------|----------|-------|

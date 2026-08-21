@@ -76,7 +76,7 @@
 ### Code Review
 - **Security-focused**: Claude Opus 4.8 plus GPT-5.5 cross-check
 - **General**: Use a different provider than implementer
-- **Automated**: akido-mcp `akido_review_diff`
+- **Automated**: the automated diff-review tool of your MCP routing server
 
 ### Research and Learning
 - **Quick facts**: Perplexity sonar-pro

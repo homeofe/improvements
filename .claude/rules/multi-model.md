@@ -35,9 +35,10 @@ For critical decisions, use two different providers:
 - Never use the same model family for both implementation and review
 - Document which models were used in LOG.md
 
-### 4. When to Use akido-mcp Tools
+### 4. When to Use MCP Routing Tools
 
-If akido-mcp is available, prefer these MCP tools for routing:
+If an MCP routing server is configured, prefer its tools for routing. The
+names below are the conventional ones; substitute your server's equivalents:
 - `gemini_run` - Large context analysis, code generation
 - `grok_run` - Real-time knowledge, reasoning
 - `chatgpt_run` - General tasks, GPT-5 family
