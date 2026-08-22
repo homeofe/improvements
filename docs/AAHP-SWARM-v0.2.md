@@ -1,10 +1,21 @@
 # AAHP Swarm Architecture Concept v0.2
 
-**Status:** Draft v0.2  
+**Status:** Superseded - historical design record  
 **Date:** 2026-06-26  
 **Author / Maintainer:** Emre Kohler / Elvatis  
 **Working title:** `aahp-swarm`  
 **Previous version:** v0.1  
+**Superseded by:** [homeofe/aahp-swarm](https://github.com/homeofe/aahp-swarm)  
+
+> **The Decision Point in section 21 is decided.** It offers "keep inside
+> `improvements`" against "split into `aahp-swarm`", and the split happened:
+> [homeofe/aahp-swarm](https://github.com/homeofe/aahp-swarm) is a public
+> repository carrying the `scout`, `tester`, `risk` and `verdict` roles, a
+> controller and a telemetry role, and the finding and swarm-run schemas this
+> paper specifies. The repository-integration tasks in section 22 were
+> therefore not applied to `improvements`, which is why no `scout.md`,
+> `verdict.md` or `schemas/` directory exists here. The text below is
+> unchanged and kept as the design record that led to that decision.
 
 ---
 
