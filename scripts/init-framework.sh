@@ -85,6 +85,28 @@ else
 fi
 
 # --------------------------------------------------------------------------
+# Step 2b: Copy .ai/GROUNDING.md
+# --------------------------------------------------------------------------
+# The Grounded Reflection Layer ships as six files. Five of them live under
+# .claude/ and .llm/ and are copied by steps 1 and 2, but the grounding
+# register itself sits at .ai/GROUNDING.md, outside .ai/handoff/, so that it
+# stays out of the handoff checksum set. Without this step the rule
+# (.claude/rules/grounded-reflection.md), the auditor agent and /challenge all
+# point at a file the install does not have.
+info "Copying .ai/GROUNDING.md ..."
+grounding_src="$FRAMEWORK_DIR/.ai/GROUNDING.md"
+grounding_dst="$TARGET_DIR/.ai/GROUNDING.md"
+if [ ! -f "$grounding_src" ]; then
+  warn ".ai/GROUNDING.md not found in framework source - skipping"
+elif [ -f "$grounding_dst" ]; then
+  warn ".ai/GROUNDING.md already exists - skipping (edit it to match your project)"
+else
+  mkdir -p "$TARGET_DIR/.ai"
+  cp "$grounding_src" "$grounding_dst"
+  ok ".ai/GROUNDING.md"
+fi
+
+# --------------------------------------------------------------------------
 # Step 3: Generate CLAUDE.md
 # --------------------------------------------------------------------------
 info "Generating CLAUDE.md ..."

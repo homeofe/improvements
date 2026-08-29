@@ -24,8 +24,17 @@ AAHP verification runs in two places:
 1. **Locally**, via the `pre-commit` (fast gate) and `pre-push` (full gate) git
    hooks, installed by `scripts/install-hooks.sh` from the canonical hook
    sources in `scripts/hooks/`.
-2. **Off machine**, via the required `AAHP Verify` CI check
-   (`.github/workflows/aahp-verify.yml`), which cannot be bypassed.
+2. **Off machine**, via the `AAHP Verify` CI check
+   (`.github/workflows/aahp-verify.yml`), which runs on every pull request and
+   every push to `main` and has no escape hatch of its own (`AAHP_SKIP_VERIFY`
+   is ignored at `--level ci`).
+
+> **Status of the CI check in this repository.** `AAHP Verify` is *intended* to
+> be a required status check, but branch protection on `main` currently declares
+> no required status checks, so a red run reports and does not block a merge.
+> Until that is configured, the off-machine layer is an alarm, not a gate, and
+> the local hooks are the only enforcement that actually stops work. An operator
+> adopting this framework should mark the check required in branch protection.
 
 The CI check is the backstop, but the local hooks are the first line of defense:
 they catch staled handoff state before a commit or push leaves the machine. A

@@ -2,8 +2,9 @@
 #
 # Runs the AAHP CLI `aahp verify --level ci`, which executes all 4 layers with
 # NO escape hatch (AAHP_SKIP_VERIFY is ignored at --level ci). This is the
-# off-machine, non-bypassable backstop behind the local pre-commit / pre-push
-# hooks:
+# off-machine backstop behind the local pre-commit / pre-push hooks. It cannot
+# be silenced from a developer machine, but it does not yet BLOCK a merge: see
+# the NOTE at the end of this header.
 #   Layer 1: MANIFEST checksum integrity
 #   Layer 2: content-drift gate (code changed => STATUS.md + MANIFEST.json must change)
 #   Layer 3: commit-pointer freshness
@@ -18,14 +19,15 @@
 # held to the same standard it ships.
 #
 # Dependabot exemption: a pure dependency bump introduces no handoff-state change,
-# so the AAHP handoff gate does not apply to it. The job stays a REQUIRED check but
-# no-ops to success when the change originates from dependabot[bot] - on both the PR
-# (github.actor) and the resulting push to main (head_commit.author). Security and
-# build remain gated by the supply-chain-guard and CodeQL checks, which still run.
+# so the AAHP handoff gate does not apply to it. The job still runs but no-ops to
+# success when the change originates from dependabot[bot] - on both the PR
+# (github.actor) and the resulting push to main (head_commit.author).
 #
-# NOTE: This workflow runs on pull requests and pushes to main. To fully close
-# the gate, mark this job as a REQUIRED status check in branch protection so it
-# cannot be bypassed by skipping the local pre-commit / pre-push hooks.
+# NOTE: This workflow runs on pull requests and pushes to main, but branch
+# protection on main declares NO required status checks, so a failure here does
+# not block a merge today. To close the gate, mark this job as a REQUIRED status
+# check in branch protection. Until then, treat a red run as an alarm, not a
+# barrier, and do not describe it as non-bypassable.
 
 name: AAHP Verify
 

@@ -1,9 +1,22 @@
 # AAHP Swarm Architecture Concept v0.1
 
-**Status:** Draft v0.1  
+**Status:** Superseded - historical design record  
 **Date:** 2026-06-26  
 **Author / Maintainer:** Emre Kohler / Elvatis  
 **Working title:** `aahp-swarm`  
+**Superseded by:** [homeofe/aahp-swarm](https://github.com/homeofe/aahp-swarm)  
+
+> **This paper's central question is closed.** Section 9 asks whether the swarm
+> layer should stay inside `improvements` (Option A) or become a dedicated
+> project (Option B), and open question 6 restates it. Option B was taken:
+> [homeofe/aahp-swarm](https://github.com/homeofe/aahp-swarm) is a public
+> repository carrying the roles proposed here (`scout`, `tester`, `risk`,
+> `verdict`, plus controller and telemetry) and the finding and swarm-run
+> schemas. Of the tasks in section 14, only T-001 (land this document) was
+> applied here; the role, schema and workflow tasks were carried out in that
+> repository instead, and T-006 is the decision itself. The working position
+> in section 16 is likewise settled. The text below is unchanged and kept as
+> the design record that led there: read it as history, not as a proposal.
 
 ---
 

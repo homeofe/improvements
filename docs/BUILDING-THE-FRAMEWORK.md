@@ -102,6 +102,8 @@ your-project/
     commands/                #   slash commands
   .llm/                      # Layer 2: provider-neutral knowledge
     ROUTING.md  PROVIDERS.md  PATTERNS.md  PROMPTS.md
+    PROMPTS-GROUNDED-REFLECTION.md
+  .ai/GROUNDING.md           # grounding register (task-type anchor matrix)
   .ai/handoff/               # Layer 3: the memory / state layer (AAHP)
     MANIFEST.json  STATUS.md  NEXT_ACTIONS.md  LOG.md
     DASHBOARD.md  CONVENTIONS.md  WORKFLOW.md  TRUST.md
@@ -175,7 +177,7 @@ Two design choices to copy:
   cannot modify code even if it tried. Capability is scoped to the role.
 - **Model per role, not per project.** Each agent declares the model tier its job needs.
 
-The five agents form a pipeline that mirrors how a careful team ships a change:
+The five pipeline agents mirror how a careful team ships a change:
 
 | Phase | Agent | Default model | Responsibility |
 |-------|-------|---------------|----------------|
@@ -188,6 +190,12 @@ The five agents form a pipeline that mirrors how a careful team ships a change:
 Note the deliberate model spread: expensive reasoning only in phase 2, cheap state management
 in phase 5, and a forced family switch between phases 3 and 4. The pipeline encodes the five
 principles as roles.
+
+A sixth agent, `auditor`, sits outside the pipeline: it is invoked on demand (phase 4.5,
+before handoff) to audit whether claims are actually grounded, and it routes to a different
+provider than the reviewer. It belongs to the Grounded Reflection Layer, which this guide
+does not otherwise cover: see `.claude/rules/grounded-reflection.md` and
+`docs/POSITIONPAPER-GROUNDED-REFLECTION.md`.
 
 ### 4.4 Layer 1c: commands (.claude/commands/)
 
@@ -204,7 +212,7 @@ argument-hint: <task description>
 Read .llm/ROUTING.md and recommend a model for: $ARGUMENTS
 ```
 
-The five commands cover the daily loop:
+The six commands cover the daily loop:
 
 | Command | What it does |
 |---------|--------------|
@@ -213,13 +221,14 @@ The five commands cover the daily loop:
 | `/route <task>` | Recommend a model for a task |
 | `/review-cycle` | Run multi-model review on recent changes |
 | `/handoff` | Run the full end-of-session state update and commit |
+| `/challenge` | Adversarial grounding check: provenance gaps and counterarguments |
 
 A command is just a saved prompt with a name. That is the whole trick: turn your repeated
 instructions into named, version-controlled operations.
 
 ### 4.5 Layer 2: the provider-neutral layer (.llm/)
 
-These four files contain no Claude-specific syntax, so any tool or human can use them.
+These five files contain no Claude-specific syntax, so any tool or human can use them.
 
 - **ROUTING.md** - the task-to-model decision matrix and the escalation ladder. This is the
   operational core of principle 2.1.
@@ -228,6 +237,8 @@ These four files contain no Claude-specific syntax, so any tool or human can use
 - **PATTERNS.md** - reusable cross-LLM workflow patterns.
 - **PROMPTS.md** - copy-paste prompt templates. The session-start prompt is the most important
   one to port if you use a non-Claude tool.
+- **PROMPTS-GROUNDED-REFLECTION.md** - reflection templates: provenance classification,
+  grounding-gap analysis, and the adversarial challenge pass.
 
 A routing matrix looks like this (trimmed):
 
@@ -462,11 +473,17 @@ The framework assumes many providers, but it degrades gracefully.
 A complete install has:
 
 - `CLAUDE.md` at the repo root
-- `.claude/rules/` with four rules (aahp-protocol, multi-model, safety, handoff)
-- `.claude/agents/` with five agents (researcher, architect, implementer, reviewer, handoff-manager)
-- `.claude/commands/` with five commands (handoff, route, status, next, review-cycle)
+- `.claude/rules/` with five rules (aahp-protocol, multi-model, safety, handoff,
+  grounded-reflection)
+- `.claude/agents/` with six agents (researcher, architect, implementer, reviewer,
+  handoff-manager, auditor)
+- `.claude/commands/` with six commands (handoff, route, status, next, review-cycle,
+  challenge)
 - `.claude/settings.json` with permissions and the PostToolUse hook
-- `.llm/` with four files (ROUTING, PROVIDERS, PATTERNS, PROMPTS)
+- `.llm/` with five files (ROUTING, PROVIDERS, PATTERNS, PROMPTS,
+  PROMPTS-GROUNDED-REFLECTION)
+- `.ai/GROUNDING.md`, the grounding register the rule, the `auditor` agent and
+  `/challenge` all read
 - `.ai/handoff/` with the eight state files plus `LOG-ARCHIVE.md`
 - `scripts/` with the install script and the validation hook
 
@@ -480,4 +497,6 @@ Verification after a build:
 
 ---
 
-*Copyright 2026 Emre Kohler (Elvatis). Licensed under the MIT License. Use, copy, modify, and distribute freely.*
+*Copyright 2026 Emre Kohler (Elvatis). Licensed under the [Apache License 2.0](../LICENSE),
+the licence this repository actually ships. Use, modify, and distribute, including
+commercially, subject to the terms of that licence.*
